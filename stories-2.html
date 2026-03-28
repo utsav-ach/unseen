@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stories — Unseen Nepal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ============================
+   CSS VARIABLES & RESET
+   ============================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #FAF8F4;
+  --white: #FFFFFF;
+  --ink: #1A1612;
+  --ink-soft: #3D3530;
+  --warm-gray: #8C8480;
+  --border: #E8E3DC;
+  --gold: #C9A96E;
+  --gold-light: #E8D5B0;
+  --terracotta: #C4704A;
+  --sage: #6B8C6B;
+  --sky: #5C87A8;
+  --shadow-sm: 0 2px 12px rgba(26,22,18,0.06);
+  --shadow-md: 0 8px 32px rgba(26,22,18,0.10);
+  --shadow-lg: 0 20px 60px rgba(26,22,18,0.14);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+img { display: block; max-width: 100%; }
+button, input, textarea, select { font-family: var(--font-body); }
+
+/* ============================
+   SCROLLBAR
+   ============================ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+/* ============================
+   NAVIGATION
+   ============================ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 48px;
+  background: rgba(250,248,244,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(232,227,220,0.6);
+  transition: var(--transition);
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.3px;
+  text-decoration: none;
+}
+
+.nav-logo span { color: var(--gold); }
+
+.nav-links {
+  display: flex; align-items: center; gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 14px; font-weight: 500; color: var(--ink-soft);
+  text-decoration: none; letter-spacing: 0.2px;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -3px; left: 0;
+  width: 0; height: 1.5px; background: var(--gold);
+  transition: width 0.3s;
+}
+
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--gold); }
+.nav-links a.active::after { width: 100%; }
+
+.nav-cta {
+  background: var(--ink); color: var(--cream);
+  padding: 10px 22px; border-radius: 100px;
+  font-size: 13px; font-weight: 600;
+  text-decoration: none;
+  transition: background 0.25s, transform 0.2s;
+  letter-spacing: 0.3px;
+}
+.nav-cta:hover { background: var(--gold); transform: translateY(-1px); }
+
+/* ============================
+   HERO SECTION
+   ============================ */
+.hero {
+  position: relative;
+  height: 100vh; min-height: 620px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(26,22,18,0.25) 0%,
+      rgba(26,22,18,0.45) 55%,
+      rgba(26,22,18,0.75) 100%),
+    url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1800&q=80') center/cover no-repeat;
+  transform: scale(1.04);
+  animation: heroZoom 20s ease-out forwards;
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1.04); }
+  to   { transform: scale(1.00); }
+}
+
+.hero-grain {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4; pointer-events: none;
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center; padding: 0 24px;
+  max-width: 760px;
+  animation: fadeUp 1s 0.3s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: var(--gold-light); font-size: 12px; font-weight: 600;
+  letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 20px;
+}
+
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: ''; display: block;
+  width: 28px; height: 1px; background: var(--gold-light); opacity: 0.7;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 6.5vw, 82px);
+  font-weight: 900; color: #fff;
+  line-height: 1.08; letter-spacing: -1.5px;
+  margin-bottom: 20px;
+}
+
+.hero h1 em { font-style: italic; color: var(--gold-light); }
+
+.hero-sub {
+  font-size: clamp(15px, 1.6vw, 18px);
+  color: rgba(255,255,255,0.8);
+  font-weight: 300; letter-spacing: 0.5px;
+  margin-bottom: 44px; line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--ink);
+  padding: 15px 36px; border-radius: 100px;
+  font-size: 14px; font-weight: 700;
+  text-decoration: none; border: none; cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+  box-shadow: 0 4px 20px rgba(201,169,110,0.45);
+}
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 32px rgba(201,169,110,0.55);
+  background: #D4B478;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  padding: 14px 32px; border-radius: 100px;
+  font-size: 14px; font-weight: 600;
+  text-decoration: none; cursor: pointer;
+  letter-spacing: 0.5px;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  transition: all 0.25s;
+}
+.btn-outline:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.9);
+  transform: translateY(-2px);
+}
+
+.hero-scroll {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  z-index: 2; animation: fadeUp 1s 0.9s both;
+}
+
+.hero-scroll span {
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); font-weight: 500;
+}
+
+.scroll-dot {
+  width: 1.5px; height: 36px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50%       { opacity: 1;   transform: scaleY(1.2); }
+}
+
+/* ============================
+   SECTION CHROME
+   ============================ */
+.section { padding: 96px 0; }
+.section-inner { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 14px;
+}
+.section-label::before {
+  content: ''; width: 24px; height: 1.5px; background: var(--gold);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 800; color: var(--ink);
+  line-height: 1.15; letter-spacing: -0.8px;
+}
+
+.section-title em { font-style: italic; color: var(--terracotta); }
+
+.section-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 52px; gap: 24px; flex-wrap: wrap;
+}
+
+.view-all {
+  font-size: 13px; font-weight: 600; color: var(--gold);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 6px;
+  letter-spacing: 0.3px; white-space: nowrap;
+  transition: gap 0.2s;
+}
+.view-all:hover { gap: 10px; }
+.view-all::after { content: '→'; font-size: 15px; }
+
+/* ============================
+   FEATURED STORIES
+   ============================ */
+.featured-section { background: var(--white); }
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 24px;
+}
+
+.featured-card {
+  position: relative; overflow: hidden;
+  border-radius: var(--radius);
+  cursor: pointer;
+  background: #1a1612;
+  transition: transform 0.4s var(--transition), box-shadow 0.4s;
+}
+
+.featured-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.featured-card.hero-card { grid-row: span 2; min-height: 560px; }
+.featured-card.side-card { min-height: 264px; }
+
+.featured-card-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  position: absolute; inset: 0;
+  opacity: 0.85;
+  transition: transform 0.6s ease, opacity 0.4s;
+}
+
+.featured-card:hover .featured-card-img {
+  transform: scale(1.06);
+  opacity: 0.75;
+}
+
+.featured-card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,
+    rgba(20,15,10,0.92) 0%,
+    rgba(20,15,10,0.35) 50%,
+    transparent 100%);
+}
+
+.featured-card-body {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 28px;
+  z-index: 2;
+}
+
+.tag-pill {
+  display: inline-block;
+  padding: 4px 12px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 12px;
+  background: rgba(201,169,110,0.25);
+  color: var(--gold-light);
+  border: 1px solid rgba(201,169,110,0.3);
+}
+
+.featured-card-title {
+  font-family: var(--font-display);
+  font-weight: 700; color: #fff;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+
+.hero-card .featured-card-title { font-size: clamp(22px, 2.8vw, 34px); margin-bottom: 12px; }
+.side-card .featured-card-title { font-size: 18px; margin-bottom: 10px; }
+
+.featured-meta {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: rgba(255,255,255,0.65);
+}
+
+.featured-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.35); }
+
+.author-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 16px;
+}
+
+.author-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.3);
+  object-fit: cover;
+}
+
+.author-name {
+  font-size: 12px; font-weight: 600;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ============================
+   SEARCH & FILTER
+   ============================ */
+.filter-section {
+  background: var(--cream);
+  padding: 48px 0;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 65px; z-index: 50;
+  box-shadow: 0 4px 20px rgba(26,22,18,0.04);
+}
+
+.filter-inner {
+  max-width: 1280px; margin: 0 auto; padding: 0 48px;
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+
+.search-wrap {
+  flex: 1; min-width: 220px;
+  position: relative;
+}
+
+.search-wrap svg {
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  color: var(--warm-gray); pointer-events: none;
+}
+
+.search-input {
+  width: 100%; padding: 13px 18px 13px 44px;
+  border: 1.5px solid var(--border); border-radius: 100px;
+  background: var(--white); font-size: 14px; color: var(--ink);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  font-weight: 400;
+}
+.search-input::placeholder { color: var(--warm-gray); }
+.search-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,169,110,0.12);
+}
+
+.filter-group {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+
+.filter-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 18px; border-radius: 100px;
+  border: 1.5px solid var(--border);
+  background: var(--white); font-size: 13px; font-weight: 500;
+  color: var(--ink-soft); cursor: pointer;
+  transition: all 0.2s; white-space: nowrap;
+}
+.filter-chip svg { color: var(--warm-gray); transition: color 0.2s; }
+
+.filter-chip:hover {
+  border-color: var(--gold); color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-chip.active {
+  background: var(--ink); color: var(--cream);
+  border-color: var(--ink);
+}
+.filter-chip.active svg { color: var(--gold); }
+
+.filter-select {
+  padding: 10px 36px 10px 16px;
+  border: 1.5px solid var(--border); border-radius: 100px;
+  background: var(--white); font-size: 13px; font-weight: 500;
+  color: var(--ink-soft); cursor: pointer; outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238C8480' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  transition: border-color 0.2s;
+}
+.filter-select:focus { border-color: var(--gold); }
+
+/* ============================
+   STORIES GRID
+   ============================ */
+.grid-section { background: var(--cream); }
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 28px;
+}
+
+.story-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  opacity: 0; transform: translateY(30px);
+}
+
+.story-card.visible {
+  animation: cardReveal 0.55s ease forwards;
+}
+
+@keyframes cardReveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.story-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.story-img-wrap {
+  position: relative; overflow: hidden;
+  height: 210px;
+}
+
+.story-img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.story-card:hover .story-img { transform: scale(1.06); }
+
+.story-img-tag {
+  position: absolute; top: 14px; left: 14px;
+  padding: 4px 12px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase;
+  background: rgba(250,248,244,0.9);
+  color: var(--terracotta);
+  backdrop-filter: blur(6px);
+}
+
+.story-save {
+  position: absolute; top: 12px; right: 12px;
+  width: 34px; height: 34px;
+  background: rgba(255,255,255,0.9);
+  border: none; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-sm);
+  color: var(--warm-gray);
+}
+.story-save:hover { background: var(--white); color: var(--terracotta); transform: scale(1.1); }
+.story-save.saved { color: var(--terracotta); }
+
+.story-body { padding: 22px 22px 18px; }
+
+.story-location {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 10px;
+}
+.story-location svg { color: var(--terracotta); }
+
+.story-title {
+  font-family: var(--font-display);
+  font-size: 19px; font-weight: 700; color: var(--ink);
+  line-height: 1.25; letter-spacing: -0.2px;
+  margin-bottom: 16px;
+}
+
+.story-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 14px; border-top: 1px solid var(--border);
+}
+
+.story-author {
+  display: flex; align-items: center; gap: 8px;
+}
+
+.story-author-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  object-fit: cover; border: 1.5px solid var(--border);
+}
+
+.story-author-name { font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+
+.story-meta {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11px; color: var(--warm-gray);
+}
+
+.story-meta svg { width: 13px; height: 13px; }
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center; padding: 72px 24px;
+}
+.no-results-icon { font-size: 48px; margin-bottom: 16px; }
+.no-results h3 { font-family: var(--font-display); font-size: 24px; color: var(--ink); margin-bottom: 10px; }
+.no-results p { color: var(--warm-gray); font-size: 15px; }
+
+/* ============================
+   STORY MODAL
+   ============================ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(26,22,18,0.7);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  backdrop-filter: blur(8px);
+}
+
+.modal-overlay.open {
+  opacity: 1; visibility: visible;
+}
+
+.modal {
+  background: var(--white);
+  border-radius: 20px;
+  max-width: 720px; width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.94) translateY(20px);
+  transition: transform 0.35s ease;
+  box-shadow: 0 40px 80px rgba(26,22,18,0.25);
+}
+
+.modal-overlay.open .modal { transform: scale(1) translateY(0); }
+
+.modal-hero {
+  position: relative; height: 300px; overflow: hidden;
+  border-radius: 20px 20px 0 0;
+}
+
+.modal-hero img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+.modal-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(20,15,10,0.7) 0%, transparent 60%);
+}
+
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.9); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--ink);
+  transition: all 0.2s; backdrop-filter: blur(4px);
+}
+.modal-close:hover { background: var(--white); transform: scale(1.1); }
+
+.modal-body { padding: 36px 40px 48px; }
+
+.modal-tag {
+  display: inline-block; padding: 4px 12px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 16px;
+  background: rgba(201,169,110,0.12); color: var(--terracotta);
+  border: 1px solid rgba(201,169,110,0.25);
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 30px; font-weight: 800; color: var(--ink);
+  line-height: 1.2; letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.modal-meta-row {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin-bottom: 28px; padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-author-row {
+  display: flex; align-items: center; gap: 10px;
+}
+
+.modal-author-av {
+  width: 40px; height: 40px; border-radius: 50%;
+  object-fit: cover; border: 2px solid var(--border);
+}
+
+.modal-author-info .author-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+.modal-author-info .author-loc { font-size: 12px; color: var(--warm-gray); }
+
+.modal-stats {
+  display: flex; gap: 14px; font-size: 12px; color: var(--warm-gray);
+  margin-left: auto;
+}
+
+.modal-stats span { display: flex; align-items: center; gap: 4px; }
+
+.modal-content {
+  font-size: 16px; line-height: 1.8; color: var(--ink-soft);
+}
+
+.modal-content p { margin-bottom: 18px; }
+.modal-content p:first-child::first-letter {
+  font-family: var(--font-display);
+  font-size: 56px; font-weight: 900; float: left;
+  line-height: 0.8; margin: 6px 10px 0 0;
+  color: var(--gold);
+}
+
+/* ============================
+   SUBMIT SECTION
+   ============================ */
+.submit-section { background: var(--white); }
+
+.submit-layout {
+  display: grid; grid-template-columns: 1fr 1.2fr;
+  gap: 72px; align-items: center;
+}
+
+.submit-info { }
+
+.submit-quote {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.5vw, 34px);
+  font-weight: 700; font-style: italic;
+  color: var(--ink); line-height: 1.3;
+  margin-bottom: 20px;
+  letter-spacing: -0.3px;
+}
+
+.submit-desc {
+  font-size: 15px; color: var(--warm-gray); line-height: 1.75;
+  margin-bottom: 28px;
+}
+
+.submit-feature-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+
+.submit-feature-list li {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 14px; color: var(--ink-soft); font-weight: 500;
+}
+
+.feat-icon {
+  width: 32px; height: 32px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(201,169,110,0.1); flex-shrink: 0; font-size: 15px;
+}
+
+/* ============================
+   FORM CARD
+   ============================ */
+.form-card {
+  background: var(--cream);
+  border-radius: 20px; padding: 40px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-steps {
+  display: flex; align-items: center; gap: 0;
+  margin-bottom: 32px;
+}
+
+.step-item {
+  display: flex; align-items: center; gap: 0;
+  flex: 1;
+}
+
+.step-circle {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  border: 2px solid var(--border);
+  color: var(--warm-gray); background: var(--white);
+  transition: all 0.3s; flex-shrink: 0; position: relative; z-index: 1;
+}
+
+.step-item.active .step-circle { border-color: var(--gold); color: var(--gold); background: rgba(201,169,110,0.08); }
+.step-item.done .step-circle { border-color: var(--sage); background: var(--sage); color: var(--white); }
+
+.step-label { font-size: 11px; font-weight: 600; color: var(--warm-gray); white-space: nowrap; margin-left: 8px; }
+.step-item.active .step-label { color: var(--ink); }
+
+.step-line {
+  flex: 1; height: 2px; background: var(--border);
+  margin: 0 8px; transition: background 0.4s;
+}
+
+.step-item.done ~ .step-item .step-line { background: var(--border); }
+
+.form-step { display: none; }
+.form-step.active { display: block; animation: fadeSlide 0.3s ease both; }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.form-group { margin-bottom: 20px; }
+
+.form-label {
+  display: block; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.5px; color: var(--ink); margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.form-input, .form-textarea, .form-select {
+  width: 100%; padding: 12px 16px;
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--white); font-size: 14px; color: var(--ink);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  resize: none;
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,169,110,0.12);
+}
+
+.form-textarea { height: 130px; line-height: 1.6; }
+
+.tag-row {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+
+.tag-btn {
+  padding: 7px 16px; border-radius: 100px;
+  border: 1.5px solid var(--border); background: var(--white);
+  font-size: 12px; font-weight: 600; color: var(--ink-soft);
+  cursor: pointer; transition: all 0.2s;
+}
+.tag-btn:hover { border-color: var(--gold); color: var(--ink); }
+.tag-btn.selected { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm); padding: 32px;
+  text-align: center; cursor: pointer;
+  transition: all 0.2s; background: var(--white);
+  position: relative;
+}
+.upload-zone:hover { border-color: var(--gold); background: rgba(201,169,110,0.03); }
+.upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.upload-icon { font-size: 28px; margin-bottom: 8px; }
+.upload-text { font-size: 13px; color: var(--warm-gray); }
+.upload-text strong { color: var(--gold); }
+
+.upload-preview {
+  margin-top: 14px;
+  display: none;
+}
+.upload-preview img {
+  width: 100%; height: 140px; object-fit: cover;
+  border-radius: var(--radius-sm); border: 1.5px solid var(--border);
+}
+
+.form-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 24px;
+}
+
+.btn-back {
+  background: transparent; border: 1.5px solid var(--border);
+  color: var(--ink-soft); padding: 12px 24px; border-radius: 100px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-back:hover { border-color: var(--ink); color: var(--ink); }
+
+.btn-next {
+  background: var(--ink); color: var(--cream);
+  padding: 12px 28px; border-radius: 100px;
+  font-size: 13px; font-weight: 700; cursor: pointer; border: none;
+  transition: background 0.2s, transform 0.2s;
+  letter-spacing: 0.3px;
+}
+.btn-next:hover { background: var(--gold); color: var(--ink); transform: translateY(-1px); }
+
+.form-note {
+  text-align: center; margin-top: 20px;
+  font-size: 12px; color: var(--warm-gray); line-height: 1.6;
+}
+.form-note strong { color: var(--gold); }
+
+/* ============================
+   STATS BAR
+   ============================ */
+.stats-section {
+  background: var(--ink); color: var(--cream);
+  padding: 64px 0;
+}
+
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  max-width: 1280px; margin: 0 auto; padding: 0 48px;
+}
+
+.stat-item {
+  text-align: center; padding: 0 32px;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+.stat-item:last-child { border-right: none; }
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 3.5vw, 52px);
+  font-weight: 900; color: var(--gold-light);
+  line-height: 1; margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.55);
+  letter-spacing: 0.5px;
+}
+
+/* ============================
+   NEWSLETTER
+   ============================ */
+.newsletter-section {
+  background: linear-gradient(135deg, #2C1F14 0%, #1A1612 60%, #0E2218 100%);
+  padding: 96px 0;
+  position: relative; overflow: hidden;
+}
+
+.newsletter-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(201,169,110,0.1) 0%, transparent 60%);
+}
+
+.newsletter-inner {
+  max-width: 640px; margin: 0 auto; padding: 0 48px;
+  text-align: center; position: relative;
+}
+
+.newsletter-inner .section-label { justify-content: center; color: var(--gold-light); }
+.newsletter-inner .section-label::before { background: var(--gold-light); }
+
+.newsletter-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 800; color: #fff;
+  line-height: 1.15; letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.newsletter-sub {
+  font-size: 15px; color: rgba(255,255,255,0.6);
+  line-height: 1.7; margin-bottom: 36px;
+}
+
+.nl-form {
+  display: flex; gap: 10px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px; padding: 6px 6px 6px 22px;
+}
+
+.nl-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-size: 14px; color: #fff; min-width: 0;
+}
+.nl-input::placeholder { color: rgba(255,255,255,0.4); }
+
+.nl-btn {
+  background: var(--gold); color: var(--ink);
+  padding: 12px 24px; border-radius: 100px;
+  font-size: 13px; font-weight: 700; border: none; cursor: pointer;
+  transition: all 0.2s; white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+.nl-btn:hover { background: var(--gold-light); transform: translateX(2px); }
+
+/* ============================
+   FOOTER
+   ============================ */
+footer {
+  background: var(--ink);
+  padding: 56px 48px 36px;
+  color: rgba(255,255,255,0.5);
+}
+
+.footer-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px;
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700;
+  color: rgba(255,255,255,0.8);
+}
+.footer-logo span { color: var(--gold); }
+
+.footer-links { display: flex; gap: 28px; }
+.footer-links a { font-size: 13px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: rgba(255,255,255,0.85); }
+
+.footer-copy { font-size: 12px; }
+
+/* ============================
+   TOAST
+   ============================ */
+.toast {
+  position: fixed; bottom: 28px; right: 28px; z-index: 300;
+  background: var(--ink); color: var(--cream);
+  padding: 14px 22px; border-radius: 12px;
+  font-size: 14px; font-weight: 500;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(80px); opacity: 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast-icon { font-size: 18px; }
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 1024px) {
+  .featured-grid { grid-template-columns: 1fr 1fr; }
+  .featured-card.hero-card { grid-column: span 2; min-height: 380px; }
+  .submit-layout { grid-template-columns: 1fr; gap: 48px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 24px; }
+  .stat-item:nth-child(2n) { border-bottom: none; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .section-inner { padding: 0 24px; }
+  .filter-inner { padding: 0 24px; }
+  .filter-section { padding: 20px 0; top: 60px; }
+  .featured-grid { grid-template-columns: 1fr; }
+  .featured-card.hero-card { grid-column: span 1; min-height: 380px; }
+  .stories-grid { grid-template-columns: 1fr; }
+  .stats-grid { padding: 0 24px; }
+  .modal-body { padding: 28px 24px 36px; }
+  .nl-form { flex-direction: column; border-radius: 16px; padding: 12px; gap: 8px; }
+  .nl-input { padding: 10px 12px; }
+  .nl-btn { width: 100%; }
+  footer { padding: 40px 24px 28px; }
+  .footer-links { gap: 16px; flex-wrap: wrap; }
+  .form-card { padding: 28px 24px; }
+  .newsletter-inner { padding: 0 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Unseen<span>Nepal</span></a>
+  <ul class="nav-links">
+    <li><a href="#">Destinations</a></li>
+    <li><a href="#">Guides</a></li>
+    <li><a href="#" class="active">Stories</a></li>
+    <li><a href="#">Gallery</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <a href="#submit" class="nav-cta">Submit Story</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Community Stories</div>
+    <h1>Share Your Journey<br>with <em>Nepal</em></h1>
+    <p class="hero-sub">Real stories. Real people. Untold places.</p>
+    <div class="hero-actions">
+      <a href="#submit" class="btn-primary">Submit Your Story</a>
+      <a href="#stories" class="btn-outline">Explore Stories</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-dot"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number">2,400+</div>
+      <div class="stat-label">Stories Published</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">180+</div>
+      <div class="stat-label">Destinations Covered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">64</div>
+      <div class="stat-label">Districts Explored</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">38K</div>
+      <div class="stat-label">Community Readers</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED STORIES -->
+<section class="section featured-section" id="featured">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <div class="section-label">Editor's Pick</div>
+        <h2 class="section-title">Featured <em>Stories</em></h2>
+      </div>
+      <a href="#stories" class="view-all">View all stories</a>
+    </div>
+    <div class="featured-grid">
+      <!-- Hero Card -->
+      <div class="featured-card hero-card" onclick="openModal(0)">
+        <img class="featured-card-img" data-src="https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=900&q=80" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Everest Base Camp" loading="lazy" />
+        <div class="featured-card-overlay"></div>
+        <div class="featured-card-body">
+          <div class="tag-pill">🏔 Trekking</div>
+          <h3 class="featured-card-title">Seventeen Days Above the Clouds: My Everest Base Camp Diary</h3>
+          <div class="featured-meta">
+            <span>Everest Region</span>
+            <span class="featured-meta-dot"></span>
+            <span>12 min read</span>
+          </div>
+          <div class="author-row">
+            <img class="author-avatar" src="https://i.pravatar.cc/40?img=11" alt="Maya" />
+            <span class="author-name">Maya Thapa</span>
+          </div>
+        </div>
+      </div>
+      <!-- Side 1 -->
+      <div class="featured-card side-card" onclick="openModal(1)">
+        <img class="featured-card-img" data-src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Annapurna" loading="lazy" />
+        <div class="featured-card-overlay"></div>
+        <div class="featured-card-body">
+          <div class="tag-pill">🌿 Culture</div>
+          <h3 class="featured-card-title">The Hidden Monasteries of Annapurna Valley</h3>
+          <div class="featured-meta">
+            <span>Annapurna Circuit</span>
+            <span class="featured-meta-dot"></span>
+            <span>8 min read</span>
+          </div>
+          <div class="author-row">
+            <img class="author-avatar" src="https://i.pravatar.cc/40?img=5" alt="Arjun" />
+            <span class="author-name">Arjun Rai</span>
+          </div>
+        </div>
+      </div>
+      <!-- Side 2 -->
+      <div class="featured-card side-card" onclick="openModal(2)">
+        <img class="featured-card-img" data-src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&q=80" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Pokhara" loading="lazy" />
+        <div class="featured-card-overlay"></div>
+        <div class="featured-card-body">
+          <div class="tag-pill">🍜 Food</div>
+          <h3 class="featured-card-title">A Foodie's Journey Through the Streets of Pokhara</h3>
+          <div class="featured-meta">
+            <span>Pokhara</span>
+            <span class="featured-meta-dot"></span>
+            <span>6 min read</span>
+          </div>
+          <div class="author-row">
+            <img class="author-avatar" src="https://i.pravatar.cc/40?img=20" alt="Sita" />
+            <span class="author-name">Sita Gurung</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH & FILTER -->
+<div class="filter-section" id="filters">
+  <div class="filter-inner">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" type="text" id="searchInput" placeholder="Search by location, title, or author…" />
+    </div>
+    <div class="filter-group">
+      <select class="filter-select" id="regionFilter">
+        <option value="">All Regions</option>
+        <option value="everest">Everest</option>
+        <option value="annapurna">Annapurna</option>
+        <option value="pokhara">Pokhara</option>
+        <option value="kathmandu">Kathmandu</option>
+        <option value="terai">Terai</option>
+        <option value="mustang">Mustang</option>
+      </select>
+      <select class="filter-select" id="categoryFilter">
+        <option value="">All Categories</option>
+        <option value="trekking">Trekking</option>
+        <option value="culture">Culture</option>
+        <option value="food">Food</option>
+        <option value="adventure">Adventure</option>
+        <option value="wildlife">Wildlife</option>
+      </select>
+      <select class="filter-select" id="durationFilter">
+        <option value="">Any Length</option>
+        <option value="short">Short (&lt;5 min)</option>
+        <option value="medium">Medium (5–10 min)</option>
+        <option value="long">Long (10+ min)</option>
+      </select>
+      <button class="filter-chip" id="clearFilters" style="display:none">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        Clear
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- STORIES GRID -->
+<section class="section grid-section" id="stories">
+  <div class="section-inner">
+    <div class="section-head">
+      <div>
+        <div class="section-label">All Stories</div>
+        <h2 class="section-title">Explore <em>Every</em> Journey</h2>
+      </div>
+      <span id="storyCount" style="font-size:14px;color:var(--warm-gray);font-weight:500"></span>
+    </div>
+    <div class="stories-grid" id="storiesGrid"></div>
+  </div>
+</section>
+
+<!-- SUBMIT STORY -->
+<section class="section submit-section" id="submit">
+  <div class="section-inner">
+    <div class="submit-layout">
+      <div class="submit-info">
+        <div class="section-label">Share With the World</div>
+        <blockquote class="submit-quote">"Every path through Nepal holds a story worth telling."</blockquote>
+        <p class="submit-desc">We believe the most powerful travel guide isn't written by professionals — it's written by people like you who've felt the cold mountain air and walked the ancient trails.</p>
+        <ul class="submit-feature-list">
+          <li><span class="feat-icon">🌟</span>Top stories featured on our homepage</li>
+          <li><span class="feat-icon">🗺️</span>Reach 38,000+ readers worldwide</li>
+          <li><span class="feat-icon">📸</span>Your photos published in our gallery</li>
+          <li><span class="feat-icon">🤝</span>Join a community of travel storytellers</li>
+        </ul>
+      </div>
+      <div class="form-card">
+        <div class="form-steps" id="formSteps">
+          <div class="step-item active" id="step-0">
+            <div class="step-circle">1</div>
+            <span class="step-label">About You</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" id="step-1">
+            <div class="step-circle">2</div>
+            <span class="step-label">Your Story</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" id="step-2">
+            <div class="step-circle">3</div>
+            <span class="step-label">Media & Tags</span>
+          </div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="form-step active" id="formStep0">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input class="form-input" type="text" placeholder="e.g. Priya Sherpa" id="f-name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input class="form-input" type="email" placeholder="your@email.com" id="f-email" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Location</label>
+            <input class="form-input" type="text" placeholder="Where are you from?" id="f-from" />
+          </div>
+          <div class="form-nav">
+            <span></span>
+            <button class="btn-next" onclick="nextStep(1)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="form-step" id="formStep1">
+          <div class="form-group">
+            <label class="form-label">Story Title</label>
+            <input class="form-input" type="text" placeholder="Give your story an unforgettable title" id="f-title" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Destination</label>
+            <input class="form-input" type="text" placeholder="Where did this journey take place?" id="f-loc" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Story</label>
+            <textarea class="form-textarea" placeholder="Write your experience... be vivid, be honest, be you." id="f-content"></textarea>
+          </div>
+          <div class="form-nav">
+            <button class="btn-back" onclick="nextStep(0)">← Back</button>
+            <button class="btn-next" onclick="nextStep(2)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="form-step" id="formStep2">
+          <div class="form-group">
+            <label class="form-label">Cover Photo</label>
+            <div class="upload-zone" id="uploadZone">
+              <input type="file" accept="image/*" id="photoInput" onchange="previewPhoto(this)" />
+              <div class="upload-icon">📸</div>
+              <div class="upload-text">Drop your best shot here or <strong>browse</strong></div>
+            </div>
+            <div class="upload-preview" id="uploadPreview">
+              <img id="previewImg" src="" alt="Preview" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tags</label>
+            <div class="tag-row" id="tagRow">
+              <button class="tag-btn" onclick="toggleTag(this)">Trekking</button>
+              <button class="tag-btn" onclick="toggleTag(this)">Culture</button>
+              <button class="tag-btn" onclick="toggleTag(this)">Food</button>
+              <button class="tag-btn" onclick="toggleTag(this)">Adventure</button>
+              <button class="tag-btn" onclick="toggleTag(this)">Wildlife</button>
+              <button class="tag-btn" onclick="toggleTag(this)">Spiritual</button>
+              <button class="tag-btn" onclick="toggleTag(this)">Photography</button>
+            </div>
+          </div>
+          <div class="form-nav">
+            <button class="btn-back" onclick="nextStep(1)">← Back</button>
+            <button class="btn-next" onclick="submitStory()" style="background:var(--gold);color:var(--ink)">Submit Story ✨</button>
+          </div>
+          <p class="form-note"><strong>Top stories will be featured on homepage</strong> — our editors review every submission with care.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section">
+  <div class="newsletter-inner">
+    <div class="section-label">Stay Connected</div>
+    <h2 class="newsletter-title">Stories, weekly in your inbox</h2>
+    <p class="newsletter-sub">Join 38,000 readers who discover Nepal's hidden corners every week. No spam, just stories.</p>
+    <div class="nl-form">
+      <input class="nl-input" type="email" placeholder="your@email.com" />
+      <button class="nl-btn">Subscribe Free</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Unseen<span>Nepal</span></div>
+    <div class="footer-links">
+      <a href="#">Stories</a>
+      <a href="#">Destinations</a>
+      <a href="#">Submit</a>
+      <a href="#">Gallery</a>
+      <a href="#">About</a>
+      <a href="#">Privacy</a>
+    </div>
+    <div class="footer-copy">© 2025 UnseenNepal. Made with ♥ for Nepal.</div>
+  </div>
+</footer>
+
+<!-- STORY MODAL -->
+<div class="modal-overlay" id="storyModal" onclick="closeModal(event)">
+  <div class="modal" id="modalContent">
+    <div class="modal-hero">
+      <img id="modalImg" src="" alt="" />
+      <div class="modal-hero-overlay"></div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tag" id="modalTag"></div>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <div class="modal-meta-row">
+        <div class="modal-author-row">
+          <img class="modal-author-av" id="modalAvatar" src="" alt="" />
+          <div class="modal-author-info">
+            <div class="author-name" id="modalAuthor"></div>
+            <div class="author-loc" id="modalLoc"></div>
+          </div>
+        </div>
+        <div class="modal-stats">
+          <span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span id="modalViews"></span>
+          </span>
+          <span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span id="modalLikes"></span>
+          </span>
+          <span id="modalReadTime"></span>
+        </div>
+      </div>
+      <div class="modal-content" id="modalBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toastMsg">Story submitted! We'll review it shortly.</span>
+</div>
+
+<script>
+// ============================
+// DATA
+// ============================
+const stories = [
+  {
+    title: "Seventeen Days Above the Clouds: My EBC Diary",
+    location: "Everest Region",
+    region: "everest",
+    category: "trekking",
+    author: "Maya Thapa",
+    avatar: "https://i.pravatar.cc/40?img=11",
+    img: "https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=600&q=80",
+    tag: "🏔 Trekking",
+    readTime: "12 min",
+    duration: "long",
+    likes: 842,
+    views: "4.2k",
+    content: `The day I left Lukla, I had no idea the mountains would change me forever. Seventeen days, six tea houses, and one very determined pair of trekking boots later, I stood at 5,364 meters and wept. Not from altitude sickness — though that came too — but from the sheer, overwhelming beauty of existing in a place so vast and ancient it makes all your human worries feel like dust in the wind.
+
+The trail begins gently enough at Phakding, where the Dudh Koshi river hums alongside the path and prayer flags snap in the morning air. The sherpa villages cling to the hillsides like prayers themselves, each one a testament to what humans can build in impossible places. I shared momos with a grandmother in Namche Bazaar who had never left the valley but could name every peak on the horizon.
+
+Above Tengboche, the monastery sits at 3,867 meters shrouded in cloud and incense smoke. I arrived at dusk as the monks began evening prayer — a sound that seemed to vibrate from the mountain itself. No photograph could capture it. That's the thing about Everest Base Camp: the most precious moments are the ones your camera misses.`
+  },
+  {
+    title: "The Hidden Monasteries of Annapurna Valley",
+    location: "Annapurna Circuit",
+    region: "annapurna",
+    category: "culture",
+    author: "Arjun Rai",
+    avatar: "https://i.pravatar.cc/40?img=5",
+    img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80",
+    tag: "🌿 Culture",
+    readTime: "8 min",
+    duration: "medium",
+    likes: 623,
+    views: "3.1k",
+    content: `Few travelers who walk the Annapurna Circuit know about the cluster of ancient monasteries hidden in the folds of the valley, accessible only by trails that don't appear on any map. A local boy named Pasang showed me the first one — a butter-lamp lit cave monastery dating back to the 11th century, its walls covered in murals so vivid they seemed to breathe.
+
+The monks here live in almost complete solitude. One elderly lama, Brother Tenzin, had not descended to the village in four years. He showed me his garden — hardy vegetables and medicinal herbs growing at 4,200 meters — and served me sweet butter tea with a silence that felt generous rather than cold.
+
+What struck me most was how these monasteries exist outside the tourist economy entirely. No donation boxes, no photography policies, no souvenir stalls. Just ancient practice and the mountain wind. I left feeling I had witnessed something fragile and irreplaceable.`
+  },
+  {
+    title: "A Foodie's Journey Through the Streets of Pokhara",
+    location: "Pokhara",
+    region: "pokhara",
+    category: "food",
+    author: "Sita Gurung",
+    avatar: "https://i.pravatar.cc/40?img=20",
+    img: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&q=80",
+    tag: "🍜 Food",
+    readTime: "6 min",
+    duration: "medium",
+    likes: 511,
+    views: "2.8k",
+    content: `They told me to come to Pokhara for the lakes and the paragliding. Nobody mentioned the food. Three days in, I had completely abandoned my trekking plans in favor of eating my way through Lakeside, Old Bazar, and every dal bhat establishment I could find within walking distance of the Phewa.
+
+Nepali cuisine is deceptively complex — turmeric and cumin do heavy lifting, but it's the jimbu herb, dried and fried in clarified butter, that gives dal bhat its unmistakable Himalayan character. The best version I found came from a grandmother's kitchen on a narrow lane in Old Bazar, where she'd been cooking the same recipe for forty years.
+
+Pokhara's café culture has evolved dramatically, too. Young Nepali entrepreneurs are spinning local ingredients into modern concepts: buckwheat pancakes with yak butter, fermented gundruk in everything, mountain honey sourced directly from Gurung villages. It's the most exciting food scene I've encountered outside a major city.`
+  },
+  {
+    title: "Crossing Thorong La: Fear, Wind, and Wonder",
+    location: "Mustang",
+    region: "mustang",
+    category: "adventure",
+    author: "Riku Tamang",
+    avatar: "https://i.pravatar.cc/40?img=33",
+    img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80",
+    tag: "⚡ Adventure",
+    readTime: "10 min",
+    duration: "long",
+    likes: 789,
+    views: "5.1k",
+    content: `At 5,416 meters, Thorong La is the highest pass on the Annapurna Circuit — and at 3am when my alarm went off, the wind outside the teahouse sounded like a living thing trying to prevent me from leaving. I went anyway. Every serious trekker in that mountain lodge went anyway. We are, all of us, slightly mad.
+
+The ascent in darkness is surreal. Headlamp beams stab the black air, bobbing in a long procession up the switchbacks. The cold is absolute — not the polite chill of a winter morning but a fundamental hostility, the mountain reminding you that you are a soft biological creature far outside your habitat.
+
+Then you reach the top. And everything changes.`
+  },
+  {
+    title: "Jungle Walks of Chitwan: Tiger Country",
+    location: "Chitwan, Terai",
+    region: "terai",
+    category: "wildlife",
+    author: "Dev Pandey",
+    avatar: "https://i.pravatar.cc/40?img=47",
+    img: "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=600&q=80",
+    tag: "🐯 Wildlife",
+    readTime: "7 min",
+    duration: "medium",
+    likes: 436,
+    views: "2.3k",
+    content: `The guide held up a fist and we froze. Thirty meters ahead, a one-horned rhinoceros was grazing in the tall grass, entirely indifferent to our presence. On foot. No jeep, no fence. Just us and a very large prehistoric animal in the morning mist of Chitwan National Park.
+
+This is what separates Chitwan from most wildlife experiences — the walking safari. Your guide, trained since childhood in the forest, reads the jungle like a book. The broken branch, the pugmark in soft mud, the alarm call of a deer that might mean a predator is near. I spent three days in this state of alert attentiveness and it was exhausting and exhilarating in equal measure.
+
+On the final morning, barely visible through the reeds, we saw a Bengal tiger. Not for long — perhaps fifteen seconds before it vanished. But those fifteen seconds have lived in me ever since.`
+  },
+  {
+    title: "Kathmandu at Dawn: Before the City Wakes",
+    location: "Kathmandu Valley",
+    region: "kathmandu",
+    category: "culture",
+    author: "Anisha Bajracharya",
+    avatar: "https://i.pravatar.cc/40?img=62",
+    img: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=600&q=80",
+    tag: "🏛 Culture",
+    readTime: "5 min",
+    duration: "short",
+    likes: 334,
+    views: "1.9k",
+    content: `Set an alarm for 5am in Kathmandu. I promise you won't regret it. The city that feels chaotic and overwhelming by 9am is, in those early hours, a place of startling peace and ancient ritual. 
+
+The streets of Patan are empty except for the devout — women with brass plates of flowers and incense moving silently toward the temple courtyards. The dhoka steps around Durbar Square are still damp with ritual washing. A priest tends to a butter lamp at a stone shrine that has stood for nine centuries.
+
+There is a version of Kathmandu that never makes it into travel articles — the one that exists before the traffic, before the tourist rush, before the noise. This is the city's true face, and it is beautiful beyond any ruin or monument.`
+  },
+  {
+    title: "Upper Mustang: The Last Forbidden Kingdom",
+    location: "Upper Mustang",
+    region: "mustang",
+    category: "trekking",
+    author: "Karma Lama",
+    avatar: "https://i.pravatar.cc/40?img=15",
+    img: "https://images.unsplash.com/photo-1580502304784-8985b7eb7260?w=600&q=80",
+    tag: "🏔 Trekking",
+    readTime: "14 min",
+    duration: "long",
+    likes: 912,
+    views: "6.4k",
+    content: `Until 1992, Upper Mustang was closed to the outside world entirely. Even now, entry requires a special permit, and the numbers are limited. The result is one of the most intact Tibetan Buddhist cultures on earth — a place where the medieval and the modern coexist in a landscape so otherworldly that the standard vocabulary of natural beauty simply fails.
+
+Lo Manthang, the ancient walled capital, is a city outside of time. The narrow clay lanes, the palace of the Lo king, the cave monasteries dug into vermillion cliffs — all of it exists as if the 21st century is a rumor that hasn't quite arrived. The people are extraordinarily generous with their spaces and stories.
+
+What moved me most was a five-hundred-year-old monastery where a single monk was carefully restoring the murals, working by lamplight on the same images that had been painted by his predecessors centuries before. He explained that he expected the work to take the rest of his life.`
+  },
+  {
+    title: "Learning to Cook Gundruk with a Tamang Family",
+    location: "Langtang Valley",
+    region: "annapurna",
+    category: "food",
+    author: "Priya Koirala",
+    avatar: "https://i.pravatar.cc/40?img=29",
+    img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80",
+    tag: "🍜 Food",
+    readTime: "5 min",
+    duration: "short",
+    likes: 287,
+    views: "1.6k",
+    content: `Gundruk — fermented leafy greens, dried and soured — is Nepal's national comfort food, and I was determined to learn to make it properly. Through a community homestay program in Langtang Valley, I spent four days with the Moktan family, helping with the harvest and learning the traditional preparation that dates back centuries.
+
+The process is deceptively simple and requires patience: the greens are wilted, packed tightly into clay pots, and left to ferment for several days before being sun-dried on rooftops. The resulting ingredient is powerfully flavored — sour, funky, deeply savory — and forms the backbone of countless Nepali dishes.
+
+What the recipe doesn't tell you is the social dimension: the preparation is communal, the fermentation pots are checked twice daily with the care of a parent, and the finished gundruk represents a family's food security through the long mountain winter. Food, I learned, is never just food.`
+  }
+];
+
+// ============================
+// RENDER GRID
+// ============================
+const savedSet = new Set();
+const likedSet = new Set();
+
+function renderGrid(data) {
+  const grid = document.getElementById('storiesGrid');
+  const count = document.getElementById('storyCount');
+  count.textContent = data.length + ' stories found';
+  if (data.length === 0) {
+    grid.innerHTML = `<div class="no-results"><div class="no-results-icon">🔍</div><h3>No stories found</h3><p>Try adjusting your filters or search term.</p></div>`;
+    return;
+  }
+  grid.innerHTML = data.map((s, i) => `
+    <div class="story-card" onclick="openModal(${stories.indexOf(s)})">
+      <div class="story-img-wrap">
+        <img class="story-img" data-src="${s.img}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="${s.title}" loading="lazy" />
+        <div class="story-img-tag">${s.tag}</div>
+        <button class="story-save ${savedSet.has(stories.indexOf(s)) ? 'saved' : ''}" onclick="toggleSave(event, ${stories.indexOf(s)})" title="Save story">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="${savedSet.has(stories.indexOf(s)) ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </button>
+      </div>
+      <div class="story-body">
+        <div class="story-location">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${s.location}
+        </div>
+        <h3 class="story-title">${s.title}</h3>
+        <div class="story-footer">
+          <div class="story-author">
+            <img class="story-author-avatar" src="${s.avatar}" alt="${s.author}" />
+            <span class="story-author-name">${s.author}</span>
+          </div>
+          <div class="story-meta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ${s.readTime}
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  lazyLoadImages();
+  observeCards();
+}
+
+// ============================
+// LAZY LOAD
+// ============================
+function lazyLoadImages() {
+  const imgs = document.querySelectorAll('img[data-src]');
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.src = e.target.dataset.src;
+          e.target.removeAttribute('data-src');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '200px' });
+    imgs.forEach(img => obs.observe(img));
+  } else {
+    imgs.forEach(img => { img.src = img.dataset.src; });
+  }
+}
+
+// ============================
+// CARD ANIMATION
+// ============================
+function observeCards() {
+  const cards = document.querySelectorAll('.story-card');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  cards.forEach(c => obs.observe(c));
+}
+
+// ============================
+// FILTER
+// ============================
+let currentSearch = '';
+let currentRegion = '';
+let currentCategory = '';
+let currentDuration = '';
+
+function applyFilters() {
+  const active = currentSearch || currentRegion || currentCategory || currentDuration;
+  document.getElementById('clearFilters').style.display = active ? 'flex' : 'none';
+
+  const filtered = stories.filter(s => {
+    const q = currentSearch.toLowerCase();
+    const matchSearch = !q ||
+      s.title.toLowerCase().includes(q) ||
+      s.location.toLowerCase().includes(q) ||
+      s.author.toLowerCase().includes(q);
+    const matchRegion = !currentRegion || s.region === currentRegion;
+    const matchCategory = !currentCategory || s.category === currentCategory;
+    const matchDuration = !currentDuration || s.duration === currentDuration;
+    return matchSearch && matchRegion && matchCategory && matchDuration;
+  });
+
+  renderGrid(filtered);
+}
+
+document.getElementById('searchInput').addEventListener('input', e => { currentSearch = e.target.value; applyFilters(); });
+document.getElementById('regionFilter').addEventListener('change', e => { currentRegion = e.target.value; applyFilters(); });
+document.getElementById('categoryFilter').addEventListener('change', e => { currentCategory = e.target.value; applyFilters(); });
+document.getElementById('durationFilter').addEventListener('change', e => { currentDuration = e.target.value; applyFilters(); });
+document.getElementById('clearFilters').addEventListener('click', () => {
+  currentSearch = currentRegion = currentCategory = currentDuration = '';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('regionFilter').value = '';
+  document.getElementById('categoryFilter').value = '';
+  document.getElementById('durationFilter').value = '';
+  applyFilters();
+});
+
+// ============================
+// MODAL
+// ============================
+function openModal(idx) {
+  const s = stories[idx];
+  document.getElementById('modalImg').src = s.img.replace('w=600', 'w=900');
+  document.getElementById('modalTag').textContent = s.tag;
+  document.getElementById('modalTitle').textContent = s.title;
+  document.getElementById('modalAvatar').src = s.avatar;
+  document.getElementById('modalAuthor').textContent = s.author;
+  document.getElementById('modalLoc').textContent = s.location;
+  document.getElementById('modalViews').textContent = s.views;
+  document.getElementById('modalLikes').textContent = s.likes;
+  document.getElementById('modalReadTime').textContent = s.readTime + ' read';
+  document.getElementById('modalBody').innerHTML = s.content.split('\n\n').map(p => `<p>${p.trim()}</p>`).join('');
+  document.getElementById('storyModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('storyModal')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('storyModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModalDirect();
+});
+
+// ============================
+// SAVE / LIKE
+// ============================
+function toggleSave(e, idx) {
+  e.stopPropagation();
+  if (savedSet.has(idx)) savedSet.delete(idx);
+  else savedSet.add(idx);
+  const btn = e.currentTarget;
+  btn.classList.toggle('saved');
+  const icon = btn.querySelector('svg');
+  icon.setAttribute('fill', savedSet.has(idx) ? 'currentColor' : 'none');
+  showToast(savedSet.has(idx) ? '🔖 Story saved!' : 'Story unsaved');
+}
+
+// ============================
+// TOAST
+// ============================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ============================
+// MULTI-STEP FORM
+// ============================
+let currentStep = 0;
+
+function nextStep(step) {
+  document.getElementById('formStep' + currentStep).classList.remove('active');
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  if (step > currentStep) document.getElementById('step-' + currentStep).classList.add('done');
+  currentStep = step;
+  document.getElementById('formStep' + currentStep).classList.add('active');
+  document.getElementById('step-' + currentStep).classList.add('active');
+}
+
+function toggleTag(btn) {
+  btn.classList.toggle('selected');
+}
+
+function previewPhoto(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const prev = document.getElementById('uploadPreview');
+      document.getElementById('previewImg').src = e.target.result;
+      prev.style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function submitStory() {
+  showToast('✅ Story submitted! Our editors will review it shortly.');
+  nextStep(0);
+  ['f-name','f-email','f-from','f-title','f-loc','f-content'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.querySelectorAll('.tag-btn.selected').forEach(b => b.classList.remove('selected'));
+  document.getElementById('uploadPreview').style.display = 'none';
+  document.querySelectorAll('.step-item.done').forEach(s => s.classList.remove('done'));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================
+// FEATURED LAZY LOAD
+// ============================
+document.querySelectorAll('.featured-card-img').forEach(img => {
+  if (img.dataset.src) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.src = e.target.dataset.src;
+          e.target.removeAttribute('data-src');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '100px' });
+    obs.observe(img);
+  }
+});
+
+// ============================
+// NAV SCROLL EFFECT
+// ============================
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('nav');
+  nav.style.boxShadow = window.scrollY > 60 ? '0 4px 20px rgba(26,22,18,0.08)' : 'none';
+}, { passive: true });
+
+// ============================
+// INIT
+// ============================
+renderGrid(stories);
+</script>
+</body>
+</html>

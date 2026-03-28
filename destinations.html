@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nepal Destinations - Hidden Gems & Trekking Routes | Unseen Nepal</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Discover Nepal's hidden destinations and trekking routes. From Everest Base Camp to secret valleys, explore comprehensive guides to Nepal's most beautiful places.">
+    <meta name="keywords" content="Nepal destinations, Nepal trekking, Everest Base Camp, Annapurna Circuit, hidden valleys Nepal, Nepal travel guide, Himalayan treks">
+    <meta name="author" content="Unseen Nepal">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://unseennepal.com/destinations">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Nepal Destinations - Hidden Gems & Trekking Routes">
+    <meta property="og:description" content="Discover Nepal's hidden destinations and trekking routes. Complete guides to the most beautiful places in the Himalayas.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://unseennepal.com/destinations">
+    <meta property="og:image" content="https://unseennepal.com/assets/destinations-og.jpg">
+    <meta property="og:site_name" content="Unseen Nepal">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nepal Destinations - Hidden Gems & Trekking Routes">
+    <meta name="twitter:description" content="Discover Nepal's hidden destinations and comprehensive trekking guides.">
+    <meta name="twitter:image" content="https://unseennepal.com/assets/destinations-twitter.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assest/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TouristDestination",
+        "name": "Nepal Destinations Guide",
+        "description": "Comprehensive guide to Nepal's trekking destinations and hidden gems",
+        "url": "https://unseennepal.com/destinations",
+        "touristType": "Adventure Travelers, Trekkers, Cultural Enthusiasts",
+        "includedInDataCatalog": {
+            "@type": "DataCatalog",
+            "name": "Unseen Nepal Travel Guide"
+        },
+        "containsPlace": [
+            {
+                "@type": "TouristDestination",
+                "name": "Everest Base Camp",
+                "description": "World-famous trek to the base of Mount Everest"
+            },
+            {
+                "@type": "TouristDestination", 
+                "name": "Annapurna Circuit",
+                "description": "Classic circuit trek through diverse landscapes"
+            },
+            {
+                "@type": "TouristDestination",
+                "name": "Langtang Valley",
+                "description": "Valley of glaciers with rich Tamang culture"
+            }
+        ]
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Unseen Nepal</a>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html" class="active">Destinations</a></li>
+                <li><a href="stories.html">Stories</a></li>
+                <li><a href="photos.html">Photos</a></li>
+                <li><a href="trek-dai.html">Trek Dai</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+            
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                    🌙
+                </button>
+                <div class="hamburger" id="hamburger" role="button" tabindex="0" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1 class="section-title">Nepal Destinations</h1>
+        <p class="page-subtitle">Hidden gems and breathtaking landscapes across Nepal's diverse regions</p>
+        <div class="nav-controls">
+            <input type="text" class="search-bar" placeholder="Search destinations, stories..." id="globalSearch" aria-label="Global search">
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="dest-layout">
+            <!-- Sidebar Filters -->
+            <aside class="left-col">
+                <div class="filter-card">
+                    <div class="filter-header">
+                        <i class="fas fa-filter"></i>
+                        Filters
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label" for="destSearchInput">
+                            <i class="fas fa-search"> </i>
+                                 Search 
+                        </label>
+                        <input id="destSearchInput" class="search-input" placeholder="Search destinations or tags..." />
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label" for="filterRegion">
+                            <i class="fas fa-map-marker-alt"></i>
+                              Region
+                        </label>
+                        <select id="filterRegion" class="search-input">
+                            <option value="all">All Regions</option>
+                            <option>Central</option>
+                            <option>East</option>
+                            <option>Mid-West</option>
+                            <option>Far-West</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label" for="filterDifficulty">
+                            <i class="fas fa-mountain"></i>
+                            Difficulty
+                        </label>
+                        <select id="filterDifficulty" class="search-input">
+                            <option value="all">All Levels</option>
+                            <option>Easy</option>
+                            <option>Medium</option>
+                            <option>Hard</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label" for="filterDuration">
+                            <i class="fas fa-clock"></i>
+                            Duration
+                        </label>
+                        <select id="filterDuration" class="search-input">
+                            <option value="all">Any Duration</option>
+                            <option>1-5 days</option>
+                            <option>6-14 days</option>
+                            <option>15+ days</option>
+                        </select>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Destinations Grid -->
+            <section>
+                <div class="cards-grid" id="destCards" aria-live="polite">
+                    <!-- Destination Cards -->
+                    <article class="destination-card" onclick="openDestinationModal('Langtang Valley')" role="button" tabindex="0">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400&h=240&fit=crop" alt="Langtang Valley with snow-capped mountains and prayer flags" loading="lazy" />
+                            <div class="card-badges">
+                                <span class="badge badge-difficulty">Medium</span>
+                                <span class="badge badge-region">Central</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Langtang Valley</h3>
+                            <p class="card-description">Discover the hidden gem of Langtang Valley with pristine forests and traditional villages.</p>
+                            <div class="card-meta">
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>4.8</span>
+                                </div>
+                                <span>14 days</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="destination-card" onclick="openDestinationModal('Everest Base Camp')" role="button" tabindex="0">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=240&fit=crop" alt="Everest Base Camp trek with mountain views" loading="lazy" />
+                            <div class="card-badges">
+                                <span class="badge badge-difficulty">Hard</span>
+                                <span class="badge badge-region">East</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Everest Base Camp</h3>
+                            <p class="card-description">The world's most famous trek leading to the base of Mount Everest.</p>
+                            <div class="card-meta">
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>4.7</span>
+                                </div>
+                                <span>14-16 days</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="destination-card" onclick="openDestinationModal('Annapurna Circuit')" role="button" tabindex="0">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=400&h=240&fit=crop" alt="Annapurna Circuit mountain trail" loading="lazy" />
+                            <div class="card-badges">
+                                <span class="badge badge-difficulty">Hard</span>
+                                <span class="badge badge-region">Central</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Annapurna Circuit</h3>
+                            <p class="card-description">Classic circuit trek through diverse landscapes and traditional villages.</p>
+                            <div class="card-meta">
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>4.8</span>
+                                </div>
+                                <span>15-21 days</span>
+                            </div>
+                        </div>
+                    </article>
+
+        <!-- Ad Space -->
+        <div class="ad-space">Advertisement Space</div>
+    </main>
+
+    <!-- Destination Modal -->
+<div id="destModal" class="modal dest-modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-content" role="document">
+    <button class="modal-close" aria-label="Close modal">
+      <i class="fas fa-times"></i>
+    </button>
+    
+    <!-- Destination Image -->
+    <img class="modal-banner" src="" alt="" loading="lazy" />
+    
+    <!-- Body -->
+    <div class="modal-body">
+      <h2 id="modalTitle"></h2>
+      <p id="modalDescription"></p>
+      
+      <!-- Map placeholder -->
+      <div id="modalMap" style="height: 300px; margin-top: 2rem; border-radius: 8px;"></div>
+      
+      <!-- CTA buttons -->
+      <div style="margin-top: 2rem; text-align: center;">
+        <a href="stories.html" class="btn">Read Stories</a>
+        <a href="photos.html" class="btn">View Photos</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="social-links">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; <span id="year">2025</span> Unseen Nepal. All rights reserved.</p>
+      <p><a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+    </div>
+  </div>
+</footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        let map;
+        
+        function openDestinationModal(title) {
+            const modal = document.getElementById('destModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalBanner = modal.querySelector('.modal-banner');
+            const modalMap = document.getElementById('modalMap');
+            
+            const destinations = {
+                'Langtang Valley': {
+                    description: 'Known as the "Valley of Glaciers," Langtang Valley offers pristine forests, traditional Tamang villages, and spectacular mountain views. This trek combines natural beauty with rich cultural experiences, making it perfect for those seeking both adventure and cultural immersion.',
+                    image: 'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=800&h=600&fit=crop',
+                    coords: [28.2096, 85.3132]
+                },
+                'Chitwan National Park': {
+                    description: 'Experience Nepal\'s wildlife at its finest in this UNESCO World Heritage site. Home to rhinos, tigers, and diverse flora and fauna in the subtropical lowlands. Enjoy elephant safaris, canoe rides, and cultural performances by local Tharu communities.',
+                    image: 'https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=800&h=600&fit=crop',
+                    coords: [27.5291, 84.3542]
+                },
+                'Mustang District': {
+                    description: 'Step into the ancient kingdom of Lo Manthang in Upper Mustang. This remote region offers unique Tibetan culture, dramatic desert landscapes, and centuries-old monasteries. A restricted area that preserves ancient traditions and breathtaking scenery.',
+                    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop',
+                    coords: [29.1800, 83.9200]
+                },
+                'Everest Base Camp': {
+                    description: 'The world\'s most famous trek leading to the base of Mount Everest at 5,364m. Journey through Sherpa villages, cross suspension bridges, and witness breathtaking views of the world\'s highest peaks including Everest, Lhotse, and Ama Dablam.',
+                    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop',
+                    coords: [28.0018, 86.8523]
+                },
+                'Annapurna Circuit': {
+                    description: 'Classic circuit trek through diverse landscapes from subtropical forests to alpine meadows and high-altitude deserts. Cross the challenging Thorong La Pass at 5,416m and experience traditional Gurung and Thakali villages along the way.',
+                    image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&h=600&fit=crop',
+                    coords: [28.5312, 83.8730]
+                },
+                'Poon Hill': {
+                    description: 'Perfect for beginners, offering stunning sunrise views over the Annapurna and Dhaulagiri ranges. Trek through charming Magar and Gurung villages with comfortable tea house accommodations and witness one of the Himalayas\' most famous sunrise viewpoints.',
+                    image: 'https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=800&h=600&fit=crop',
+                    coords: [28.2743, 83.6977]
+                },
+                'Manaslu Circuit': {
+                    description: 'Off-the-beaten-path trek around the eighth highest mountain in the world. Experience pristine wilderness, ancient monasteries, and traditional Tibetan culture while crossing the challenging Larkya La Pass at 5,106m.',
+                    image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&h=600&fit=crop',
+                    coords: [28.5326, 84.5595]
+                },
+                'Gokyo Lakes': {
+                    description: 'Pristine turquoise lakes nestled beneath towering peaks. Climb Gokyo Ri for spectacular views of Everest, Lhotse, Makalu, and Cho Oyu. A less crowded alternative to Everest Base Camp with equally stunning mountain vistas.',
+                    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop',
+                    coords: [27.9612, 86.6908]
+                },
+                'Bandipur': {
+                    description: 'Historic hilltop town with preserved Newari architecture and panoramic mountain views. This living museum offers glimpses into traditional Nepali culture, ancient temples, and stunning views of the Himalayas without the need for trekking.',
+                    image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?w=800&h=600&fit=crop',
+                    coords: [27.9317, 84.4189]
+                }
+            };
+            
+            const destination = destinations[title];
+            if (destination) {
+                modalTitle.textContent = title;
+                modalDescription.textContent = destination.description;
+                modalBanner.src = destination.image;
+                modalBanner.alt = title + ' landscape view';
+                
+                openModal(modal);
+                
+                // Initialize map
+                setTimeout(() => {
+                    if (map) {
+                        map.remove();
+                    }
+                    map = L.map('modalMap').setView(destination.coords, 10);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+                    
+                    L.marker(destination.coords).addTo(map)
+                        .bindPopup(title)
+                        .openPopup();
+                }, 300);
+            }
+        }
+    </script>
+     <script src="assest/js/main.js"> </script>
+</body>
+</html>

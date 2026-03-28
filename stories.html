@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Stories from Nepal - Real Experiences | Unseen Nepal</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Read inspiring travel stories from Nepal. Real experiences, challenges, and adventures shared by trekkers and travelers exploring the Himalayas.">
+    <meta name="keywords" content="Nepal travel stories, trekking experiences, Himalayan adventures, travel blog Nepal, Nepal journey stories, mountain stories">
+    <meta name="author" content="Unseen Nepal">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://unseennepal.com/stories">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Travel Stories from Nepal - Real Experiences">
+    <meta property="og:description" content="Read inspiring travel stories and real experiences from Nepal's mountains and trails.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://unseennepal.com/stories">
+    <meta property="og:image" content="https://unseennepal.com/assets/stories-og.jpg">
+    <meta property="og:site_name" content="Unseen Nepal">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Travel Stories from Nepal - Real Experiences">
+    <meta name="twitter:description" content="Inspiring travel stories and adventures from Nepal's Himalayas.">
+    <meta name="twitter:image" content="https://unseennepal.com/assets/stories-twitter.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    
+    <!-- Stylesheets -->
+   <link rel="stylesheet" href="assest/css/styles.css">
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Nepal Travel Stories",
+        "description": "Collection of real travel experiences and stories from Nepal",
+        "url": "https://unseennepal.com/stories",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Unseen Nepal"
+        },
+        "blogPost": [
+            {
+                "@type": "BlogPosting",
+                "headline": "Lost in the Clouds",
+                "author": {
+                    "@type": "Person",
+                    "name": "Sarah Johnson"
+                },
+                "datePublished": "2024-12-15",
+                "description": "An unexpected adventure when fog descended on Everest Base Camp trek"
+            },
+            {
+                "@type": "BlogPosting",
+                "headline": "Tea Houses and Friendships",
+                "author": {
+                    "@type": "Person",
+                    "name": "Mike Chen"
+                },
+                "datePublished": "2024-12-10",
+                "description": "How a broken ankle led to meaningful connections during a Nepal trek"
+            }
+        ]
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Unseen Nepal</a>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="stories.html" class="active">Stories</a></li>
+                <li><a href="photos.html">Photos</a></li>
+                <li><a href="trek-dai.html">Trek Dai</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+            
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                    🌙
+                </button>
+                <div class="hamburger" id="hamburger" role="button" tabindex="0" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1 class="section-title">Travel Stories</h1>
+        <p class="page-subtitle">Travel fades, but the stories remain.<br>Real experiences and adventures from fellow travelers exploring Nepal</p>
+         <div class="nav-controls">
+            <input type="text" class="search-bar" placeholder="Search destinations, stories..." id="globalSearch" aria-label="Global search">
+        </div>
+    </header>
+
+    <main class="container" style="padding-top:45px;">
+        <!-- Story Grid -->
+        <section class="stories-grid" id="storiesGrid">
+            <!-- CTA Card for Story Submission -->
+            <article class="card card-cta in-view" aria-label="Share your story">
+                <div class="card-image cta-media aspect-16-9" aria-hidden="true">
+                    <span class="cta-plus" aria-hidden="true">+</span>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Share Your Story</h3>
+                    <p class="card-description">Tell your Nepal adventure story and inspire other travelers with your journey.</p>
+                    <button class="btn" id="openFormBtn">Share Story</button>
+                </div>
+            </article>
+
+            <article class="story-card" onclick="openStoryModal('story1')" role="button" tabindex="0">
+                <div class="story-icon"></div>
+                <h3>Lost in the Clouds</h3>
+                <p>A breathtaking journey through the Himalayas, where unexpected fog led to unforgettable encounters and life-changing realizations on the Everest Base Camp trail.</p>
+                <div class="story-meta">By Sarah Johnson &bull; Dec 15, 2024 &bull;8 min read</div>
+            </article>
+
+            <article class="story-card" onclick="openStoryModal('story2')" role="button" tabindex="0">
+                <div class="story-icon"></div>
+                <h3>Tea Houses and Friendships</h3>
+                <p>How a broken ankle during an Annapurna trek turned into the most meaningful experience of my life, teaching me about Nepali hospitality and human connection.</p>
+                <div class="story-meta">By Mike Chen &bull;Dec 10, 2024 12 min read</div>
+            </article>
+
+        </section>
+
+        <!-- Ad Space -->
+        <div class="ad-space">Advertisement Space</div>
+    </main>
+
+    <!-- Story Modal -->
+    <div id="storyModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="storyTitle">
+        <div class="modal-content">
+            <button class="modal-close" id="closeStoryModal" aria-label="Close story">✕</button>
+            <div class="modal-body">
+                <h2 id="storyTitle">Story Title</h2>
+                <div class="story-meta" id="storyMetaData"></div>
+                
+                <section id="storyContent">
+                    <!-- Story content will be loaded here -->
+                </section>
+                
+                <div class="story-gallery" id="storyGallery">
+                    <!-- Story images will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Story Form Modal -->
+    <div id="formModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+        <div class="modal-content form-content">
+            <button class="modal-close" id="closeFormModal" aria-label="Close form">✕</button>
+            <h2 id="formTitle">Share Your Story</h2>
+            <form id="storyForm">
+                <div class="form-group">
+                    <label for="storyTitleInput">Story Title</label>
+                    <input type="text" id="storyTitleInput" name="title" required placeholder="Enter your story title">
+                </div>
+
+                <div class="form-group">
+                    <label for="authorName">Your Name</label>
+                    <input type="text" id="authorName" name="author" required placeholder="Your name">
+                </div>
+
+                <div class="form-group">
+                    <label for="storyOverview">Story Overview</label>
+                    <textarea id="storyOverview" name="overview" required rows="4" placeholder="Brief summary of your experience..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="storyDifficulty">Trek Difficulty</label>
+                    <select id="storyDifficulty" name="difficulty" required>
+                        <option value="">Select difficulty</option>
+                        <option value="Easy">Easy</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="Hard">Hard</option>
+                        <option value="Expert">Expert</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="storyChallenges">Challenges Faced</label>
+                    <textarea id="storyChallenges" name="challenges" rows="3" placeholder="&bull; Weather conditions&#10;&bull; Altitude sickness&#10;&bull; Equipment issues"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="storyCost">Estimated Cost</label>
+                    <textarea id="storyCost" name="cost" rows="3" placeholder=" &bull;Permits: $50&#10;&bull;Guide: $25/day&#10;&bull; Accommodation: $10/night"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="storyAdvice">Advice for Others</label>
+                    <textarea id="storyAdvice" name="advice" rows="4" placeholder="&bull; Best time to visit&#10;&bull; What to pack&#10;&bull;Training recommendations"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="featuredImage">Featured Image</label>
+                    <input type="file" id="featuredImage" name="featured" accept="image/*" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="galleryImages">Additional Images (optional)</label>
+                    <input type="file" id="galleryImages" name="gallery" accept="image/*" multiple>
+                </div>
+
+                <button type="submit" class="btn">Submit Story</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Image Viewer Modal -->
+    <div id="imageModal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-content" style="background: transparent; box-shadow: none;">
+            <button class="modal-close" id="closeImageModal" aria-label="Close image">✕</button>
+            <img id="modalImage" alt="Full size image" style="max-width: 90vw; max-height: 90vh; border-radius: 8px;">
+        </div>
+    </div>
+
+  <!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="social-links">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; <span id="year">2025</span> Unseen Nepal. All rights reserved.</p>
+      <p><a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+    </div>
+  </div>
+</footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        // Story data
+        const stories = {
+            story1: {
+                title: "Lost in the Clouds",
+                author: "Sarah Johnson",
+                date: "December 15, 2024",
+                readTime: "8 min read",
+                content: {
+                    overview: "Day three of the Everest Base Camp trek started like any other. Clear skies, crisp mountain air, and the excitement of reaching Namche Bazaar. But by afternoon, thick fog descended, turning familiar trails into a maze of uncertainty.",
+                    difficulty: "Hard",
+                    challenges: [
+                        "Sudden weather changes and zero visibility",
+                        "Losing the main trail in thick fog", 
+                        "Navigation without GPS signal",
+                        "Communication issues with the guide"
+                    ],
+                    cost: [
+                        "EBC Trek Package: $1,200",
+                        "Emergency shelter: $30/night",
+                        "Extra food supplies: $25"
+                    ],
+                    advice: [
+                        "Always carry a backup navigation method",
+                        "Stay calm and retrace your steps when lost",
+                        "Travel with experienced guides in challenging weather",
+                        "Pack emergency shelter and extra food",
+                        "Check weather forecasts multiple times daily"
+                    ]
+                },
+                images: [
+                    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop",
+                    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&h=400&fit=crop"
+                ]
+            },
+            story2: {
+                title: "Tea Houses and Friendships",
+                author: "Mike Chen",
+                date: "December 10, 2024",
+                readTime: "12 min read",
+                content: {
+                    overview: "What started as a solo Annapurna Circuit adventure became a profound lesson in human kindness when I injured my ankle on day 8. Stranded in a small tea house, I discovered the true heart of Nepali hospitality.",
+                    difficulty: "Moderate",
+                    challenges: [
+                        "Ankle injury requiring 5 days rest",
+                        "Language barriers with local families",
+                        "Missing scheduled flights due to delay",
+                        "Limited medical facilities in remote areas"
+                    ],
+                    cost: [
+                        "Extended stay: $15/night extra",
+                        "Local medical treatment: $50",
+                        "Flight change fees: $200"
+                    ],
+                    advice: [
+                        "Travel insurance is absolutely essential",
+                        "Learn basic Nepali phrases before going",
+                        "Keep flexible travel dates",
+                        "Embrace unexpected detours - they often become the best memories"
+                    ]
+                },
+                images: [
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop"
+                ]
+            },
+            story3: {
+                title: "Festival in the Mountains",
+                author: "Priya Sharma",
+                date: "December 5, 2024",
+                readTime: "6 min read",
+                content: {
+                    overview: "Timing my Mustang trek during Tihar festival was unintentional, but it became the highlight of my journey. A local family invited me to celebrate with them, offering insights into traditions I'd only read about in books.",
+                    difficulty: "Hard",
+                    challenges: [
+                        "High altitude celebrations at 3,800m",
+                        "Adapting to local customs and traditions",
+                        "Managing trek schedule around festival days"
+                    ],
+                    cost: [
+                        "Mustang restricted area permit: $500",
+                        "Festival gifts for host family: $75",
+                        "Extended stay: $25/night"
+                    ],
+                    advice: [
+                        "Research local festivals before traveling",
+                        "Bring small gifts to share with families",
+                        "Be respectful of religious ceremonies",
+                        "Stay flexible with your itinerary"
+                    ]
+                },
+                images: [
+                    "https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?w=600&h=400&fit=crop"
+                ]
+            },
+            story4: {
+                title: "Solo Female Trekker",
+                author: "Emma Wilson",
+                date: "November 28, 2024",
+                readTime: "15 min read",
+                content: {
+                    overview: "As a solo female trekker on the Manaslu Circuit, I faced unique challenges and discovered incredible strength. This comprehensive guide shares safety strategies, cultural considerations, and empowering moments from my 18-day journey.",
+                    difficulty: "Hard",
+                    challenges: [
+                        "Cultural sensitivity in conservative mountain communities",
+                        "Safety concerns in remote areas",
+                        "Physical demands of high-altitude trekking",
+                        "Emergency preparedness as a solo traveler"
+                    ],
+                    cost: [
+                        "Manaslu permits and fees: $175",
+                        "Solo trekker guide (mandatory): $35/day",
+                        "Safety equipment rental: $150"
+                    ],
+                    advice: [
+                        "Hire reputable guides through established agencies",
+                        "Dress modestly and respect local customs",
+                        "Carry emergency communication devices",
+                        "Connect with other trekkers for safety",
+                        "Trust your instincts and don't hesitate to change plans"
+                    ]
+                },
+                images: [
+                    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=400&fit=crop"
+                ]
+            }
+        };
+
+        // Open story form modal
+        document.getElementById('openFormBtn').addEventListener('click', function() {
+            openModal(document.getElementById('formModal'));
+        });
+
+        // Story form submission
+        document.getElementById('storyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (validateForm(this)) {
+                showNotification('Story submitted successfully! We will review and publish it soon.', 'success');
+                closeModal(document.getElementById('formModal'));
+                this.reset();
+            } else {
+                showNotification('Please fill in all required fields.', 'error');
+            }
+        });
+
+        // Open story modal function
+        function openStoryModal(storyId) {
+            const story = stories[storyId];
+            if (!story) return;
+            
+            const modal = document.getElementById('storyModal');
+            const title = document.getElementById('storyTitle');
+            const metaData = document.getElementById('storyMetaData');
+            const content = document.getElementById('storyContent');
+            const gallery = document.getElementById('storyGallery');
+            
+            title.textContent = story.title;
+            metaData.innerHTML = `By ${story.author} â€¢ ${story.date} â€¢ ${story.readTime}`;
+            
+            content.innerHTML = `
+                <section>
+                    <h3>Overview</h3>
+                    <p>${story.content.overview}</p>
+                </section>
+                
+                <section>
+                    <h3>Difficulty Level</h3>
+                    <p><strong>${story.content.difficulty}</strong></p>
+                </section>
+                
+                <section>
+                    <h3>Challenges Faced</h3>
+                    <ul>
+                        ${story.content.challenges.map(challenge => `<li>${challenge}</li>`).join('')}
+                    </ul>
+                </section>
+                
+                <section>
+                    <h3>Cost Breakdown</h3>
+                    <ul>
+                        ${story.content.cost.map(cost => `<li>${cost}</li>`).join('')}
+                    </ul>
+                </section>
+                
+                <section>
+                    <h3>Advice for Future Trekkers</h3>
+                    <ul>
+                        ${story.content.advice.map(advice => `<li>${advice}</li>`).join('')}
+                    </ul>
+                </section>
+            `;
+            
+            if (story.images && story.images.length > 0) {
+                gallery.innerHTML = `
+                    <h3>Photos from the Journey</h3>
+                    <div class="gallery-grid">
+                        ${story.images.map(img => `
+                            <img src="${img}" alt="Story photo" loading="lazy" onclick="openImageModal('${img}')" style="cursor: pointer; border-radius: 8px;">
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                gallery.innerHTML = '';
+            }
+            
+            openModal(modal);
+        }
+
+        // Open image modal
+        function openImageModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+            openModal(modal);
+        }
+
+        // Add styles for gallery grid
+        const galleryStyles = document.createElement('style');
+        galleryStyles.textContent = `
+            .gallery-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+            .gallery-grid img {
+                width: 100%;
+                height: 150px;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+            }
+            .gallery-grid img:hover {
+                transform: scale(1.05);
+            }
+        `;
+        document.head.appendChild(galleryStyles);
+    </script>
+     <script src="assest/js/main.js"> </script>
+</body>
+</html>
