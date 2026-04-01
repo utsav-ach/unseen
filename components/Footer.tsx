@@ -27,7 +27,7 @@ export default function Footer() {
                     <Link href="/destinations" className="text-white/70 hover:text-goldLight transition-colors duration-300">Destinations</Link>
                     <Link href="/stories" className="text-white/70 hover:text-goldLight transition-colors duration-300">Stories</Link>
                     <Link href="/photos" className="text-white/70 hover:text-goldLight transition-colors duration-300">Photos</Link>
-                    <Link href="/trek-diary" className="text-white/70 hover:text-goldLight transition-colors duration-300">Trek Diary</Link>
+                    <Link href="/trek-dai" className="text-white/70 hover:text-goldLight transition-colors duration-300">TrekDai</Link>
                     <Link href="/profile" className="text-white/70 hover:text-goldLight transition-colors duration-300">Profile</Link>
                 </div>
 

@@ -37,7 +37,7 @@ export default function Navbar() {
                             }`}>Stories</Link></li>
                         <li><Link href="/photos" className={`font-medium transition-colors duration-300 ${isScrolled ? 'text-inkSoft hover:text-gold' : 'text-white hover:text-goldLight'
                             }`}>Photos</Link></li>
-                        <li><Link href="/trek-diary" className={`font-medium transition-colors duration-300 ${isScrolled ? 'text-inkSoft hover:text-gold' : 'text-white hover:text-goldLight'
+                        <li><Link href="/trek-dai" className={`font-medium transition-colors duration-300 ${isScrolled ? 'text-inkSoft hover:text-gold' : 'text-white hover:text-goldLight'
                             }`}>TrekDai</Link></li>
                         <li><Link href="/profile" className={`font-medium transition-colors duration-300 ${isScrolled ? 'text-inkSoft hover:text-gold' : 'text-white hover:text-goldLight'
                             }`}>Profile</Link></li>
@@ -69,7 +69,7 @@ export default function Navbar() {
                         <li><Link href="/destinations" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Destinations</Link></li>
                         <li><Link href="/stories" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Stories</Link></li>
                         <li><Link href="/photos" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Photos</Link></li>
-                        <li><Link href="/trek-diary" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Trek Diary</Link></li>
+                        <li><Link href="/trek-dai" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">TrekDai</Link></li>
                         <li><Link href="/profile" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Profile</Link></li>
                     </ul>
                 </div>
