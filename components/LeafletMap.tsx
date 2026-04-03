@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -79,11 +79,13 @@ function MapController({ center, zoom, selectedGuide }: MapControllerProps) {
   const map = useMap();
 
   useEffect(() => {
-    map.setView(center, zoom);
+    if (map) {
+      map.setView(center, zoom, { animate: true });
+    }
   }, [center, zoom, map]);
 
   useEffect(() => {
-    if (selectedGuide?.coordinates) {
+    if (selectedGuide?.coordinates && map) {
       map.setView(selectedGuide.coordinates, 12, { animate: true });
     }
   }, [selectedGuide, map]);
@@ -113,15 +115,17 @@ function BoundsTracker({ onBoundsChange }: BoundsTrackerProps) {
   return null;
 }
 
-interface CenterMarkerTrackerProps {
-  onCenterChange: (center: [number, number]) => void;
+interface ClickableMapProps {
+  onMapClick: (latlng: [number, number]) => void;
+  isActive: boolean;
 }
 
-function CenterMarkerTracker({ onCenterChange }: CenterMarkerTrackerProps) {
-  const map = useMapEvents({
-    move: () => {
-      const center = map.getCenter();
-      onCenterChange([center.lat, center.lng]);
+function ClickableMap({ onMapClick, isActive }: ClickableMapProps) {
+  useMapEvents({
+    click: (e) => {
+      if (isActive) {
+        onMapClick([e.latlng.lat, e.latlng.lng]);
+      }
     },
   });
 
@@ -135,6 +139,7 @@ interface LeafletMapProps {
   onBoundsChange?: (bounds: any) => void;
   initialCenter?: [number, number];
   initialZoom?: number;
+  onLocationPicked?: (location: { lat: number; lng: number; name?: string }) => void;
 }
 
 export default function LeafletMap({
@@ -144,6 +149,7 @@ export default function LeafletMap({
   onBoundsChange,
   initialCenter = [28.3949, 84.1240],
   initialZoom = 7,
+  onLocationPicked,
 }: LeafletMapProps) {
   const [mapCenter, setMapCenter] = useState<[number, number]>(initialCenter);
   const [mapZoom, setMapZoom] = useState(initialZoom);
@@ -153,8 +159,21 @@ export default function LeafletMap({
   const [isSearching, setIsSearching] = useState(false);
   const [markerPickerActive, setMarkerPickerActive] = useState(false);
   const [pickedLocation, setPickedLocation] = useState<[number, number] | null>(null);
+  const [searchMarker, setSearchMarker] = useState<[number, number] | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
+  const [mapType, setMapType] = useState<'street' | 'satellite'>('street');
+  const [isMounted, setIsMounted] = useState(false);
+  const mapId = useMemo(() => `map-${Math.random().toString(36).substr(2, 9)}`, []);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const tileUrls = {
+    street: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+  };
 
   useEffect(() => {
     setMapCenter(initialCenter);
@@ -206,6 +225,7 @@ export default function LeafletMap({
     const lng = parseFloat(result.lon);
     setMapCenter([lat, lng]);
     setMapZoom(12);
+    setSearchMarker([lat, lng]);
     setShowResults(false);
     setSearchQuery(result.display_name.split(',')[0]);
   };
@@ -224,35 +244,55 @@ export default function LeafletMap({
 
   const handleMarkerPickerToggle = () => {
     setMarkerPickerActive(!markerPickerActive);
-    if (!markerPickerActive && mapRef.current) {
-      const center = mapRef.current.getCenter();
-      setPickedLocation([center.lat, center.lng]);
-    } else {
-      setPickedLocation(null);
-    }
-  };
-
-  const handleConfirmLocation = () => {
-    if (pickedLocation) {
-      console.log('Selected location:', pickedLocation);
-      alert(`Location selected: ${pickedLocation[0].toFixed(4)}, ${pickedLocation[1].toFixed(4)}`);
-      setMarkerPickerActive(false);
-      setPickedLocation(null);
-    }
-  };
-
-  const handleCenterChange = (center: [number, number]) => {
     if (markerPickerActive) {
-      setPickedLocation(center);
+      setPickedLocation(null);
     }
   };
+
+  const handleMapClick = async (latlng: [number, number]) => {
+    if (markerPickerActive) {
+      setPickedLocation(latlng);
+      
+      // Reverse geocode to get location name
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latlng[0]}&lon=${latlng[1]}`
+        );
+        const data = await response.json();
+        const locationName = data.display_name?.split(',')[0] || `${latlng[0].toFixed(4)}, ${latlng[1].toFixed(4)}`;
+        setSearchQuery(locationName);
+        
+        // Notify parent component
+        if (onLocationPicked) {
+          onLocationPicked({
+            lat: latlng[0],
+            lng: latlng[1],
+            name: locationName
+          });
+        }
+      } catch (error) {
+        console.error('Reverse geocoding error:', error);
+        setSearchQuery(`${latlng[0].toFixed(4)}, ${latlng[1].toFixed(4)}`);
+      }
+      
+      setMarkerPickerActive(false);
+    }
+  };
+
+  if (!isMounted) {
+    return (
+      <div className="relative h-full w-full rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center" style={{ zIndex: 1 }}>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="relative h-full w-full rounded-2xl overflow-hidden">
+    <div className="relative h-full w-full rounded-2xl overflow-hidden" style={{ zIndex: 1 }} id={mapId}>
       <MapContainer
-        center={mapCenter}
-        zoom={mapZoom}
-        className="h-full w-full"
+        center={initialCenter}
+        zoom={initialZoom}
+        className={`h-full w-full ${markerPickerActive ? 'cursor-crosshair' : ''}`}
         zoomControl={false}
         ref={(mapInstance) => {
           if (mapInstance) {
@@ -262,12 +302,13 @@ export default function LeafletMap({
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url={tileUrls[mapType]}
+          key={mapType}
         />
         
         <MapController center={mapCenter} zoom={mapZoom} selectedGuide={selectedGuide} />
         <BoundsTracker onBoundsChange={onBoundsChange} />
-        {markerPickerActive && <CenterMarkerTracker onCenterChange={handleCenterChange} />}
+        <ClickableMap onMapClick={handleMapClick} isActive={markerPickerActive} />
 
         {/* Guide Markers */}
         {guides.map((guide) => {
@@ -315,8 +356,45 @@ export default function LeafletMap({
           );
         })}
 
-        {/* Center Marker for Location Picker */}
-        {markerPickerActive && pickedLocation && (
+        {/* Search Result Marker */}
+        {searchMarker && (
+          <Marker 
+            position={searchMarker} 
+            icon={L.divIcon({
+              className: 'search-marker',
+              html: `
+                <div style="
+                  width: 32px;
+                  height: 32px;
+                  background-color: #3b82f6;
+                  border: 3px solid white;
+                  border-radius: 50%;
+                  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+                  animation: pulse 2s infinite;
+                ">
+                  <style>
+                    @keyframes pulse {
+                      0%, 100% { transform: scale(1); opacity: 1; }
+                      50% { transform: scale(1.1); opacity: 0.8; }
+                    }
+                  </style>
+                </div>
+              `,
+              iconSize: [32, 32],
+              iconAnchor: [16, 16],
+            })}
+          >
+            <Popup>
+              <div className="p-2">
+                <p className="text-sm font-semibold text-gray-900">Searched Location</p>
+                <p className="text-xs text-gray-600">{searchQuery}</p>
+              </div>
+            </Popup>
+          </Marker>
+        )}
+
+        {/* Picked Location Marker */}
+        {pickedLocation && (
           <Marker position={pickedLocation} icon={centerMarkerIcon} />
         )}
       </MapContainer>
@@ -386,7 +464,7 @@ export default function LeafletMap({
       </div>
 
       {/* Marker Picker Tool - Top Right */}
-      <div className="absolute top-4 right-4 z-[1000]">
+      <div className="absolute top-4 right-4 z-[1000] flex flex-col gap-2">
         <button
           onClick={handleMarkerPickerToggle}
           className={`w-10 h-10 rounded-lg shadow-lg transition-all flex items-center justify-center border-2 ${
@@ -398,31 +476,29 @@ export default function LeafletMap({
         >
           <MapPinIcon className={`w-5 h-5 ${markerPickerActive ? 'text-white' : 'text-gray-700'}`} />
         </button>
+        
+        {/* Map Type Toggle */}
+        <button
+          onClick={() => setMapType(prev => prev === 'street' ? 'satellite' : 'street')}
+          className="w-10 h-10 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-colors flex items-center justify-center border border-gray-200"
+          title={mapType === 'street' ? 'Switch to satellite view' : 'Switch to street view'}
+        >
+          <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {mapType === 'street' ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            )}
+          </svg>
+        </button>
       </div>
 
-      {/* Location Picker Instructions */}
+      {/* Location Picker Active Indicator */}
       {markerPickerActive && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] bg-white rounded-xl shadow-xl px-6 py-4 max-w-md">
-          <p className="text-sm text-gray-700 mb-3 text-center">
-            Move the map to position the red marker at your desired location
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] bg-green-600 text-white rounded-xl shadow-xl px-6 py-3 max-w-md">
+          <p className="text-sm font-semibold text-center">
+            Click anywhere on the map to select location
           </p>
-          <div className="flex gap-2">
-            <button
-              onClick={() => {
-                setMarkerPickerActive(false);
-                setPickedLocation(null);
-              }}
-              className="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleConfirmLocation}
-              className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors"
-            >
-              Confirm Location
-            </button>
-          </div>
         </div>
       )}
     </div>

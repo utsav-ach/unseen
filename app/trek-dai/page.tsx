@@ -46,12 +46,13 @@ export default function TrekDaiPage() {
     const [showSuccess, setShowSuccess] = useState(false);
     const [showFilterPanel, setShowFilterPanel] = useState(false);
     const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
-    const [mapKey, setMapKey] = useState(0);
     const [mapCenter, setMapCenter] = useState<[number, number]>([28.3949, 84.1240]);
     const [mapZoom, setMapZoom] = useState(7);
     const [isMobile, setIsMobile] = useState(false);
     const [sortBy, setSortBy] = useState<'rating' | 'price' | 'experience'>('rating');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+    const [searchedLocation, setSearchedLocation] = useState<{ lat: number; lng: number; name: string } | null>(null);
+    const [locationRadius, setLocationRadius] = useState(50); // km radius for filtering (default 50km)
     
     // Filter state
     const [filters, setFilters] = useState<FilterOptions>({
@@ -75,6 +76,19 @@ export default function TrekDaiPage() {
         
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
+
+    // Helper to calculate distance between two coordinates (Haversine formula)
+    const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+        const R = 6371; // Earth's radius in km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = 
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    };
 
     // Helper to check price match
     const matchesPriceFilter = (guidePrice: string, filterPrice: string, customMin?: number, customMax?: number): boolean => {
@@ -106,6 +120,15 @@ export default function TrekDaiPage() {
             guide.bio.toLowerCase().includes(searchQuery.toLowerCase()) ||
             guide.specialties.some(specialty => specialty.toLowerCase().includes(searchQuery.toLowerCase()));
 
+        // Location-based filtering
+        const matchesLocation = !searchedLocation || !guide.coordinates || 
+            calculateDistance(
+                searchedLocation.lat, 
+                searchedLocation.lng, 
+                guide.coordinates[0], 
+                guide.coordinates[1]
+            ) <= locationRadius;
+
         const matchesRegion = filters.region === 'All Regions' || guide.region === filters.region;
         const matchesRating = guide.rating >= filters.minRating;
         const matchesExperience = filters.experience === 'Any Experience' || 
@@ -119,7 +142,7 @@ export default function TrekDaiPage() {
 
         const matchesPrice = matchesPriceFilter(guide.priceRange, filters.priceRange, filters.customPriceMin, filters.customPriceMax);
 
-        return matchesSearch && matchesRegion && matchesRating && matchesExperience && matchesLanguages && matchesPrice;
+        return matchesSearch && matchesLocation && matchesRegion && matchesRating && matchesExperience && matchesLanguages && matchesPrice;
     });
 
     // Sort guides
@@ -145,7 +168,7 @@ export default function TrekDaiPage() {
     const handleLocationSelect = (location: { name: string; lat: number; lng: number; region: string }) => {
         setMapCenter([location.lat, location.lng]);
         setMapZoom(10);
-        setMapKey(prev => prev + 1);
+        setSearchedLocation({ lat: location.lat, lng: location.lng, name: location.name });
         setFilters(prev => ({ ...prev, region: location.region }));
         
         // Scroll to guides section
@@ -160,6 +183,13 @@ export default function TrekDaiPage() {
 
     const handleGuideSelect = (guide: Guide) => {
         setSelectedGuide(guide);
+    };
+
+    const handleLocationPicked = (location: { lat: number; lng: number; name?: string }) => {
+        setMapCenter([location.lat, location.lng]);
+        setMapZoom(12);
+        setSearchedLocation({ lat: location.lat, lng: location.lng, name: location.name || 'Selected Location' });
+        console.log('Location picked:', location);
     };
 
     const handleViewProfile = (guide: Guide) => {
@@ -240,7 +270,7 @@ export default function TrekDaiPage() {
                 </section>
 
                 {/* Map-Based Guide Discovery Section */}
-                <section ref={guidesRef} className="py-24 bg-white">
+                <section ref={guidesRef} className="py-24 bg-white relative">
                     <div className="max-w-7xl mx-auto px-6 md:px-12">
                         <div className="mb-16">
                             <div className="inline-flex items-center gap-3 text-gold text-xs font-bold tracking-[2.5px] uppercase mb-4">
@@ -275,25 +305,56 @@ export default function TrekDaiPage() {
                         {/* Desktop Layout */}
                         <div className="hidden md:block">
                             {/* Centered Map */}
-                            <div className="mb-8">
-                                <div className="h-[600px] w-full">
+                            <div className="mb-8 relative" style={{ zIndex: 1 }}>
+                                <div className="h-[600px] w-full overflow-hidden rounded-2xl">
                                     <LeafletMap
-                                        key={mapKey}
                                         guides={sortedGuides}
                                         selectedGuide={selectedGuide}
                                         onGuideSelect={handleGuideSelect}
                                         onBoundsChange={handleMapBoundsChange}
                                         initialCenter={mapCenter}
                                         initialZoom={mapZoom}
+                                        onLocationPicked={handleLocationPicked}
                                     />
                                 </div>
                             </div>
 
                             {/* Sorting Controls */}
                             <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-2xl font-bold text-ink">
-                                    {sortedGuides.length} Guide{sortedGuides.length !== 1 ? 's' : ''} Found
-                                </h3>
+                                <div className="flex items-center gap-4">
+                                    <h3 className="text-2xl font-bold text-ink">
+                                        {sortedGuides.length} Guide{sortedGuides.length !== 1 ? 's' : ''} Found
+                                    </h3>
+                                    {searchedLocation && (
+                                        <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-2">
+                                            <MapPin className="w-4 h-4 text-green-600" />
+                                            <span className="text-sm text-green-700 font-medium">
+                                                Near {searchedLocation.name}
+                                            </span>
+                                            <select
+                                                value={locationRadius}
+                                                onChange={(e) => setLocationRadius(Number(e.target.value))}
+                                                className="text-xs bg-transparent border-l border-green-300 pl-2 text-green-700 font-semibold focus:outline-none"
+                                            >
+                                                <option value={25}>25km</option>
+                                                <option value={50}>50km</option>
+                                                <option value={75}>75km</option>
+                                                <option value={100}>100km</option>
+                                            </select>
+                                            <button
+                                                onClick={() => {
+                                                    setSearchedLocation(null);
+                                                    setMapCenter([28.3949, 84.1240]);
+                                                    setMapZoom(7);
+                                                }}
+                                                className="ml-1 text-green-600 hover:text-green-800 transition-colors"
+                                                title="Clear location filter"
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                                 <div className="flex items-center gap-3">
                                     <label className="text-sm font-semibold text-gray-700">Sort by:</label>
                                     <select
@@ -415,39 +476,70 @@ export default function TrekDaiPage() {
 
                         {/* Mobile Layout */}
                         <div className="md:hidden">
-                            <div className="h-[500px] relative mb-8">
+                            <div className="h-[500px] relative mb-8 overflow-hidden rounded-2xl" style={{ zIndex: 1 }}>
                                 <LeafletMap
-                                    key={mapKey}
                                     guides={sortedGuides}
                                     selectedGuide={selectedGuide}
                                     onGuideSelect={handleGuideSelect}
                                     onBoundsChange={handleMapBoundsChange}
                                     initialCenter={mapCenter}
                                     initialZoom={mapZoom}
+                                    onLocationPicked={handleLocationPicked}
                                 />
                             </div>
 
                             {/* Mobile Sorting */}
-                            <div className="flex items-center justify-between mb-4 px-4">
-                                <h3 className="text-lg font-bold text-ink">
-                                    {sortedGuides.length} Guide{sortedGuides.length !== 1 ? 's' : ''}
-                                </h3>
-                                <select
-                                    value={`${sortBy}-${sortOrder}`}
-                                    onChange={(e) => {
-                                        const [sort, order] = e.target.value.split('-');
-                                        setSortBy(sort as 'rating' | 'price' | 'experience');
-                                        setSortOrder(order as 'asc' | 'desc');
-                                    }}
-                                    className="px-3 py-2 border-2 border-gray-200 rounded-lg bg-white text-sm"
-                                >
-                                    <option value="rating-desc">Rating (High to Low)</option>
-                                    <option value="rating-asc">Rating (Low to High)</option>
-                                    <option value="price-asc">Price (Low to High)</option>
-                                    <option value="price-desc">Price (High to Low)</option>
-                                    <option value="experience-desc">Experience (High to Low)</option>
-                                    <option value="experience-asc">Experience (Low to High)</option>
-                                </select>
+                            <div className="mb-4 px-4">
+                                <div className="flex items-center justify-between mb-3">
+                                    <h3 className="text-lg font-bold text-ink">
+                                        {sortedGuides.length} Guide{sortedGuides.length !== 1 ? 's' : ''}
+                                    </h3>
+                                    <select
+                                        value={`${sortBy}-${sortOrder}`}
+                                        onChange={(e) => {
+                                            const [sort, order] = e.target.value.split('-');
+                                            setSortBy(sort as 'rating' | 'price' | 'experience');
+                                            setSortOrder(order as 'asc' | 'desc');
+                                        }}
+                                        className="px-3 py-2 border-2 border-gray-200 rounded-lg bg-white text-sm"
+                                    >
+                                        <option value="rating-desc">Rating (High to Low)</option>
+                                        <option value="rating-asc">Rating (Low to High)</option>
+                                        <option value="price-asc">Price (Low to High)</option>
+                                        <option value="price-desc">Price (High to Low)</option>
+                                        <option value="experience-desc">Experience (High to Low)</option>
+                                        <option value="experience-asc">Experience (Low to High)</option>
+                                    </select>
+                                </div>
+                                {searchedLocation && (
+                                    <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-2">
+                                        <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
+                                        <span className="text-sm text-green-700 font-medium truncate flex-1">
+                                            Near {searchedLocation.name}
+                                        </span>
+                                        <select
+                                            value={locationRadius}
+                                            onChange={(e) => setLocationRadius(Number(e.target.value))}
+                                            className="text-xs bg-transparent border-l border-green-300 pl-2 text-green-700 font-semibold focus:outline-none"
+                                        >
+                                            <option value={25}>25km</option>
+                                            <option value={50}>50km</option>
+                                            <option value={75}>75km</option>
+                                            <option value={100}>100km</option>
+                                        </select>
+                                        <button
+                                            onClick={() => {
+                                                setSearchedLocation(null);
+                                                setMapCenter([28.3949, 84.1240]);
+                                                setMapZoom(7);
+                                            }}
+                                            className="ml-1 text-green-600 hover:text-green-800 transition-colors"
+                                            title="Clear location filter"
+                                        >
+                                            <X className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -474,7 +566,7 @@ export default function TrekDaiPage() {
 
                 {/* Success Message */}
                 {showSuccess && (
-                    <div className="fixed top-24 right-6 bg-sage text-white px-6 py-4 rounded-xl shadow-lg z-50 flex items-center gap-3">
+                    <div className="fixed top-24 right-6 bg-sage text-white px-6 py-4 rounded-xl shadow-lg z-[110] flex items-center gap-3">
                         <CheckCircle className="w-5 h-5" />
                         <span className="font-medium">Thank you for your feedback!</span>
                     </div>
@@ -485,7 +577,7 @@ export default function TrekDaiPage() {
 
             {/* Profile Modal */}
             {selectedProfile && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
                     <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div className="p-8">
                             <div className="flex items-start justify-between mb-6">
@@ -562,7 +654,7 @@ export default function TrekDaiPage() {
 
             {/* Rating Modal */}
             {showRatingModal && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
                     <div className="bg-white rounded-2xl max-w-md w-full p-8">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="font-heading text-xl font-bold text-ink">Rate This Profile</h3>
@@ -603,7 +695,7 @@ export default function TrekDaiPage() {
 
             {/* Comment Modal */}
             {showCommentModal && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
                     <div className="bg-white rounded-2xl max-w-md w-full p-8">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="font-heading text-xl font-bold text-ink">Leave a Review</h3>

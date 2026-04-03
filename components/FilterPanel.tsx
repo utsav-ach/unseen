@@ -145,13 +145,13 @@ export default function FilterPanel({
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 transition-opacity duration-300"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[110] transition-opacity duration-300"
         onClick={handleBackdropClick}
       />
       
       {/* Centered Filter Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl w-full max-w-md max-h-[80vh] overflow-hidden shadow-2xl animate-in fade-in-0 zoom-in-95 duration-300">
+      <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 pointer-events-none">
+        <div className="bg-white rounded-2xl w-full max-w-md max-h-[80vh] overflow-hidden shadow-2xl animate-in fade-in-0 zoom-in-95 duration-300 pointer-events-auto">
           {/* Header */}
           <div className="p-6 border-b border-gray-200 bg-white sticky top-0 z-10">
             <div className="flex items-center justify-between">
@@ -169,7 +169,7 @@ export default function FilterPanel({
           </div>
 
           {/* Scrollable Content */}
-          <div className="p-6 overflow-y-auto max-h-[calc(80vh-140px)]">
+          <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(80vh - 180px)' }}>
             <div className="space-y-8">
               {/* Region Filter */}
               <div>

@@ -3,12 +3,21 @@
 import { stories } from "@/data/stories";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import RichTextEditor from "@/components/RichTextEditor";
 import { BookOpen, Clock, User, Search, Bookmark, MapPin } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import { useState } from "react";
+
+const RichTextEditor = dynamic(() => import("@/components/RichTextEditor"), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-[200px] bg-gray-50 border border-gray-300 rounded-lg flex items-center justify-center">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-600"></div>
+        </div>
+    ),
+});
 
 export default function StoriesPage() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -416,7 +425,7 @@ export default function StoriesPage() {
                                             Your Story
                                         </label>
                                         <RichTextEditor
-                                            content={storyContent}
+                                            value={storyContent}
                                             onChange={setStoryContent}
                                             placeholder="Share your experience in detail... Use the toolbar to format your story with headings, bold text, lists, and more."
                                         />
