@@ -453,11 +453,11 @@ export default function TrekDaiPage() {
                                             <button
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    handleViewProfile(guide);
+                                                    router.push(`/approach-guide/${guide.id}`);
                                                 }}
                                                 className="flex-1 bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-green-700 transition-colors"
                                             >
-                                                View Profile
+                                                Approach
                                             </button>
                                             <button
                                                 onClick={(e) => {

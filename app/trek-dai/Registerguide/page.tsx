@@ -312,7 +312,7 @@ export default function RegisterGuidePage() {
                       required
                     />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500 font-medium">
-                      /hr
+                      /day
                     </span>
                   </div>
                 </div>

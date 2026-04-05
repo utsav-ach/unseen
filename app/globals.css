@@ -596,3 +596,129 @@ input[type="range"].slider-thumb::-moz-range-thumb:hover {
 .leaflet-container .grayscale {
     filter: grayscale(0.3) contrast(1.1);
 }
+
+/* Smooth page transitions and animations */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scale-up {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+}
+
+.animate-scale-up {
+    animation: scale-up 0.3s ease-out;
+}
+
+.animate-slide-up {
+    animation: slide-up 0.4s ease-out;
+}
+
+/* Rich Text Editor Styling */
+.rich-text-editor-wrapper .rdw-editor-toolbar {
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.rich-text-editor-wrapper .rdw-editor-main {
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.rich-text-editor-wrapper .public-DraftStyleDefault-block {
+    margin: 0.5em 0;
+}
+
+.rich-text-editor-wrapper .rdw-option-wrapper {
+    border: none;
+    background: transparent;
+    padding: 6px;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    margin: 0 2px;
+    transition: all 0.2s;
+}
+
+.rich-text-editor-wrapper .rdw-option-wrapper:hover {
+    background: #e5e7eb;
+    box-shadow: none;
+}
+
+.rich-text-editor-wrapper .rdw-option-active {
+    background: #10b981 !important;
+    color: white;
+}
+
+.rich-text-editor-wrapper .rdw-option-active:hover {
+    background: #059669 !important;
+}
+
+/* Prose styling for rendered HTML */
+.prose {
+    color: #374151;
+    max-width: 65ch;
+}
+
+.prose p {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+.prose strong {
+    color: #111827;
+    font-weight: 600;
+}
+
+.prose ul {
+    list-style-type: disc;
+    padding-left: 1.5em;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+.prose ol {
+    list-style-type: decimal;
+    padding-left: 1.5em;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+.prose li {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.prose a {
+    color: #10b981;
+    text-decoration: underline;
+}
+
+.prose a:hover {
+    color: #059669;
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Guide } from '@/data/trek-dai';
 import { Star, MapPin, Globe, Award } from 'lucide-react';
 
@@ -12,6 +13,8 @@ interface GuideListProps {
 }
 
 export default function GuideList({ guides, selectedGuide, onGuideSelect, onViewProfile }: GuideListProps) {
+  const router = useRouter();
+  
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
@@ -124,11 +127,11 @@ export default function GuideList({ guides, selectedGuide, onGuideSelect, onView
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  onViewProfile(guide);
+                  router.push(`/approach-guide/${guide.id}`);
                 }}
                 className="flex-1 bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-green-700 transition-colors"
               >
-                View Profile
+                Approach
               </button>
               <button
                 onClick={(e) => {

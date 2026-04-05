@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [showTrekDaiDropdown, setShowTrekDaiDropdown] = useState(false);
+    const dropdownRef = useRef<HTMLLIElement>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -13,6 +16,16 @@ export default function Navbar() {
         };
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setShowTrekDaiDropdown(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     return (
@@ -28,7 +41,7 @@ export default function Navbar() {
                     </Link>
 
                     {/* Desktop Menu */}
-                    <ul className="hidden md:flex space-x-8">
+                    <ul className="hidden md:flex space-x-8 items-center">
                         <li><Link href="/" className={`font-medium transition-colors duration-300 ${isScrolled ? 'text-inkSoft hover:text-gold' : 'text-white hover:text-goldLight'
                             }`}>Home</Link></li>
                         <li><Link href="/destinations" className={`font-medium transition-colors duration-300 ${isScrolled ? 'text-inkSoft hover:text-gold' : 'text-white hover:text-goldLight'
@@ -37,8 +50,49 @@ export default function Navbar() {
                             }`}>Stories</Link></li>
                         <li><Link href="/photos" className={`font-medium transition-colors duration-300 ${isScrolled ? 'text-inkSoft hover:text-gold' : 'text-white hover:text-goldLight'
                             }`}>Photos</Link></li>
-                        <li><Link href="/trek-dai" className={`font-medium transition-colors duration-300 ${isScrolled ? 'text-inkSoft hover:text-gold' : 'text-white hover:text-goldLight'
-                            }`}>TrekDai</Link></li>
+                        <li className="relative" ref={dropdownRef}>
+                            <button
+                                onClick={() => setShowTrekDaiDropdown(!showTrekDaiDropdown)}
+                                className={`font-medium transition-colors duration-300 flex items-center gap-1 ${isScrolled ? 'text-inkSoft hover:text-gold' : 'text-white hover:text-goldLight'
+                                }`}
+                            >
+                                TrekDai
+                                <ChevronDown className={`w-4 h-4 transition-transform ${showTrekDaiDropdown ? 'rotate-180' : ''}`} />
+                            </button>
+                            {showTrekDaiDropdown && (
+                                <div className="absolute top-full mt-2 right-0 bg-white rounded-lg shadow-xl border border-gray-200 py-2 min-w-[200px] z-50">
+                                    <Link
+                                        href="/trek-dai"
+                                        onClick={() => setShowTrekDaiDropdown(false)}
+                                        className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-green-600 transition-colors"
+                                    >
+                                        Find Guides
+                                    </Link>
+                                    <Link
+                                        href="/my-requests"
+                                        onClick={() => setShowTrekDaiDropdown(false)}
+                                        className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-green-600 transition-colors"
+                                    >
+                                        My Requests
+                                    </Link>
+                                    <Link
+                                        href="/guide/requests"
+                                        onClick={() => setShowTrekDaiDropdown(false)}
+                                        className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-green-600 transition-colors"
+                                    >
+                                        Guide Dashboard
+                                    </Link>
+                                    <div className="border-t border-gray-200 my-2"></div>
+                                    <Link
+                                        href="/trek-dai/Registerguide"
+                                        onClick={() => setShowTrekDaiDropdown(false)}
+                                        className="block px-4 py-2 text-green-600 hover:bg-green-50 font-semibold transition-colors"
+                                    >
+                                        Register as Guide
+                                    </Link>
+                                </div>
+                            )}
+                        </li>
                         <li><Link href="/profile" className={`font-medium transition-colors duration-300 ${isScrolled ? 'text-inkSoft hover:text-gold' : 'text-white hover:text-goldLight'
                             }`}>Profile</Link></li>
                     </ul>
@@ -65,12 +119,22 @@ export default function Navbar() {
             {isOpen && (
                 <div className="md:hidden bg-cream/95 backdrop-blur-lg border-t border-border">
                     <ul className="px-4 py-4 space-y-3">
-                        <li><Link href="/" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Home</Link></li>
-                        <li><Link href="/destinations" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Destinations</Link></li>
-                        <li><Link href="/stories" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Stories</Link></li>
-                        <li><Link href="/photos" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Photos</Link></li>
-                        <li><Link href="/trek-dai" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">TrekDai</Link></li>
-                        <li><Link href="/profile" className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Profile</Link></li>
+                        <li><Link href="/" onClick={() => setIsOpen(false)} className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Home</Link></li>
+                        <li><Link href="/destinations" onClick={() => setIsOpen(false)} className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Destinations</Link></li>
+                        <li><Link href="/stories" onClick={() => setIsOpen(false)} className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Stories</Link></li>
+                        <li><Link href="/photos" onClick={() => setIsOpen(false)} className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Photos</Link></li>
+                        <li>
+                            <div className="space-y-2">
+                                <div className="font-semibold text-ink">TrekDai</div>
+                                <div className="pl-4 space-y-2">
+                                    <Link href="/trek-dai" onClick={() => setIsOpen(false)} className="block text-inkSoft hover:text-gold transition-colors duration-300 text-sm">Find Guides</Link>
+                                    <Link href="/my-requests" onClick={() => setIsOpen(false)} className="block text-inkSoft hover:text-gold transition-colors duration-300 text-sm">My Requests</Link>
+                                    <Link href="/guide/requests" onClick={() => setIsOpen(false)} className="block text-inkSoft hover:text-gold transition-colors duration-300 text-sm">Guide Dashboard</Link>
+                                    <Link href="/trek-dai/Registerguide" onClick={() => setIsOpen(false)} className="block text-green-600 hover:text-green-700 transition-colors duration-300 text-sm font-semibold">Register as Guide</Link>
+                                </div>
+                            </div>
+                        </li>
+                        <li><Link href="/profile" onClick={() => setIsOpen(false)} className="block text-inkSoft hover:text-gold transition-colors duration-300 font-medium">Profile</Link></li>
                     </ul>
                 </div>
             )}
