@@ -1,157 +1,309 @@
-# Unseen Nepal - Travel Landing Page
+# Nepal Travel Guide Platform
 
-A premium Next.js travel landing page showcasing hidden destinations in Nepal with advanced scroll-based animations and real product functionality.
+A comprehensive travel platform connecting tourists with local guides in Nepal, featuring destination discovery, guide booking, and community storytelling.
 
-## 🚀 Features
+## 🌟 Features
 
-- ✅ **Functional Search** - Real-time destination search with dropdown results
-- ✅ **Dynamic Destination Pages** - Individual pages for each destination with full details
-- ✅ **Clickable Journey Section** - Interactive scroll-based storytelling with navigation
-- ✅ **Plane Animation** - Scroll-triggered plane that highlights active destinations
-- ✅ **8 Destinations** - Comprehensive data with images, details, and pricing
-- ✅ **Responsive Design** - Optimized for all devices
-- ✅ **Modern Stack** - Next.js 16, TypeScript, Tailwind CSS, Framer Motion
+### For Tourists
+- Browse curated destinations across Nepal
+- Find and book verified local guides
+- Read and share travel stories
+- Leave reviews and ratings
+- Manage bookings and profile
 
-## 🎯 What Makes This Different
+### For Guides
+- Create professional profile
+- Set service areas and rates
+- Manage bookings and availability
+- Build reputation through reviews
+- Earn income from guiding
 
-This isn't just a landing page - it's a **real working product**:
+### For Admins
+- Review and approve guide applications
+- Manage users and content
+- Monitor platform activity
+- Curate featured destinations
 
-1. **Search Actually Works** - Type "Pokhara" and get instant results
-2. **Real Navigation** - Click any destination to see full details
-3. **Interactive Journey** - Scroll to see destinations highlight and click to navigate
-4. **Multi-Page App** - Individual destination pages with galleries, pricing, booking
-5. **Connected Animations** - Plane animation syncs with journey section
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js 14, React, TypeScript, Tailwind CSS
+- **Backend:** Supabase (PostgreSQL + Auth + Storage)
+- **State Management:** Zustand
+- **Validation:** Zod
+- **Maps:** PostGIS for geographic queries
+- **Deployment:** Vercel
 
 ## 📁 Project Structure
 
 ```
-unseen-nepal/
-├── app/
-│   ├── destinations/
-│   │   ├── [slug]/page.tsx    # Dynamic destination pages
-│   │   └── page.tsx            # All destinations listing
-│   ├── layout.tsx
-│   └── page.tsx                # Home page
-├── components/
-│   ├── Hero.tsx                # Search-enabled hero
-│   ├── JourneySection.tsx      # Clickable journey cards
-│   ├── FeaturedDestinations.tsx
-│   └── ...
-├── data/
-│   └── destinations.ts         # 8 destinations with full data
-└── public/
-    └── plane.png
+├── app/                      # Next.js app directory
+│   ├── page.tsx             # Home page
+│   ├── auth/                # Authentication pages
+│   ├── destinations/        # Destination pages
+│   ├── stories/             # Story pages
+│   ├── guides/              # Guide pages
+│   ├── bookings/            # Booking pages
+│   ├── profile/             # Profile pages
+│   └── admin/               # Admin pages
+├── backend/
+│   ├── backend/
+│   │   ├── services/        # API services (8 services)
+│   │   ├── stores/          # Zustand stores (8 stores)
+│   │   └── schemas.ts       # Zod schemas & types
+│   └── supabase/            # Supabase configuration
+├── components/              # Reusable React components
+├── data/                    # Mock data for development
+├── public/                  # Static assets
+└── full-schema.sql          # Complete database schema
 ```
 
-## 🗺️ Available Destinations
+## 🚀 Quick Start
 
-1. **Kathmandu** - Capital city with UNESCO sites
-2. **Pokhara** - Lake paradise and adventure capital
-3. **Mustang** - Hidden kingdom with desert landscapes
-4. **Dolpo** - Remote wilderness and pristine lakes
-5. **Annapurna Circuit** - Classic high-altitude trek
-6. **Gokyo Lakes** - Turquoise lakes with Everest views
-7. **Langtang Valley** - Valley of glaciers near Kathmandu
-8. **Poon Hill** - Short trek with sunrise views
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- Supabase account
 
-## 🛠️ Tech Stack
+### Installation
 
-- **Framework:** Next.js 16 (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **Animations:** Framer Motion
-- **Fonts:** Playfair Display, Inter
-- **Images:** Next.js Image optimization
-
-## 🚀 Getting Started
-
+1. **Clone the repository**
 ```bash
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
+git clone <your-repo-url>
+cd nepal-travel-guide
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the site.
+2. **Install dependencies**
+```bash
+npm install
+```
 
-## ✨ Key Features Implemented
+3. **Setup Supabase**
+   - Create a new project at [supabase.com](https://supabase.com)
+   - Run `full-schema.sql` in the SQL Editor
+   - Create storage buckets: `profile_pics` and `vault`
 
-### 1. Functional Search (Hero Section)
-- Real-time filtering of destinations
-- Dropdown results with destination details
-- Click to navigate to destination page
-- Empty state handling ("No destinations found")
-- Click outside to close dropdown
+4. **Configure environment variables**
+```bash
+# Create .env.local
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+```
 
-### 2. Dynamic Destination Pages
-- Individual pages for each destination (`/destinations/[slug]`)
-- Full destination details and descriptions
-- Image galleries
-- Pricing and booking information
-- Quick info bar (difficulty, duration, altitude, season)
-- Highlights list
-- Related destinations
-- Sticky booking card
+5. **Run development server**
+```bash
+npm run dev
+```
 
-### 3. Clickable Journey Section
-- Click any journey card to navigate to destination
-- Active state highlighting based on scroll position
-- Plane animation syncs with journey progress
-- Smooth transitions and hover effects
+6. **Open browser**
+```
+http://localhost:3000
+```
 
-### 4. All Destinations Page
-- Grid view of all 8 destinations
-- Click any card to view details
-- Ratings and reviews displayed
+## 📚 Documentation
+
+- **[PROJECT_STATUS.md](./PROJECT_STATUS.md)** - Complete project status and features
+- **[BACKEND_IMPLEMENTATION.md](./BACKEND_IMPLEMENTATION.md)** - Backend architecture and services
+- **[INTEGRATION_EXAMPLE.md](./INTEGRATION_EXAMPLE.md)** - Code examples for integration
+- **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Step-by-step deployment instructions
+- **[LANDING_PAGE_DOCUMENTATION.md](./LANDING_PAGE_DOCUMENTATION.md)** - Landing page details
+
+## 🗄️ Database Schema
+
+### Core Tables
+- `profiles` - User profiles
+- `guides` - Guide listings
+- `guide_applications` - Guide applications
+- `guide_service_areas` - Geographic service areas
+- `bookings` - Tourist-guide bookings
+- `reviews` - Booking reviews
+- `stories` - User stories
+- `story_likes` - Story likes
+- `story_comments` - Story comments
+- `featured_destinations` - Curated destinations
+
+### Security Features
+- Row Level Security (RLS) on all tables
+- Automated triggers for data consistency
+- Secure storage buckets
+- Protected admin operations
+
+## 🔧 Backend Services
+
+### Available Services
+1. **authService** - Authentication & user management
+2. **profileService** - Profile operations
+3. **guideService** - Guide management
+4. **bookingService** - Booking operations
+5. **reviewService** - Review management
+6. **storyService** - Story operations
+7. **guideApplicationService** - Application processing
+8. **featuredDestinationService** - Destination management
+
+### Usage Example
+```typescript
+import { authService } from '@/backend/backend/services';
+
+// Login
+const result = await authService.loginWithEmail(email, password);
+if (result.success) {
+  // Handle success
+}
+```
 
 ## 🎨 Design System
 
 ### Colors
-- Primary: `#0F3D2E` (Deep forest green)
-- Accent: `#F59E0B` (Golden sunrise)
-- Gradients: Blue-purple for CTA sections
+- **Ink** (#1A1612) - Primary text
+- **Cream** (#FAF8F5) - Background
+- **Gold** (#C9A96E) - Accent
+- **Sage** (#8B9D83) - Success
+- **Terracotta** (#C17767) - Highlight
+- **Warm Gray** (#6B6B6B) - Secondary text
 
 ### Typography
-- Headings: Playfair Display (luxury, editorial)
-- Body: Inter (clean, modern)
+- **Heading:** Playfair Display
+- **Body:** Inter
 
-### Animations
-- Scroll-triggered plane (desktop only)
-- Journey path drawing
-- Card reveals and highlights
-- Hover effects and transitions
+## 🔐 Authentication
 
-## 📱 Responsive Design
+Supports multiple authentication methods:
+- Email/Password
+- Phone (OTP)
+- OAuth (Google, Facebook, Apple)
 
-- Mobile: Simplified layout, plane hidden
-- Tablet: 2-column grids
-- Desktop: Full animations and 4-column grids
+## 📱 Pages
 
-## 🔮 Future Enhancements
+### Public Pages
+- ✅ Home
+- ✅ Destinations (listing & detail)
+- ✅ Stories (listing & detail)
+- ✅ Guides (listing & profile)
 
-- [ ] Connect search to destinations page with filters
-- [ ] Add booking form functionality
-- [ ] Integrate CMS for dynamic content
-- [ ] Add user authentication
-- [ ] Implement favorites system
-- [ ] Add blog section
-- [ ] Multi-language support
-- [ ] Dark mode toggle
+### Protected Pages
+- ✅ Login/Signup
+- ✅ User Profile
+- ✅ My Bookings
+- ✅ Apply to be Guide
+
+### Admin Pages
+- ✅ Admin Dashboard
+- ✅ Application Management
+
+## 🧪 Testing
+
+```bash
+# Run tests (when implemented)
+npm test
+
+# Run linting
+npm run lint
+
+# Type checking
+npm run type-check
+```
+
+## 📦 Deployment
+
+### Deploy to Vercel
+
+1. **Push to GitHub**
+```bash
+git push origin main
+```
+
+2. **Import to Vercel**
+   - Go to [vercel.com](https://vercel.com)
+   - Import your repository
+   - Add environment variables
+   - Deploy
+
+3. **Configure Supabase**
+   - Add Vercel URL to Supabase redirect URLs
+   - Configure OAuth providers
+
+See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for detailed instructions.
+
+## 🔄 Integration Status
+
+### ✅ Completed
+- Complete database schema
+- All backend services
+- All Zustand stores
+- All page layouts
+- Component library
+- Type definitions
+
+### 🔄 In Progress
+- Connect frontend to backend
+- Implement real-time features
+- Add payment integration
+
+### 📋 Todo
+- Email notifications
+- Advanced search/filtering
+- Analytics dashboard
+- Mobile app
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📄 License
 
-This project is for portfolio/demonstration purposes.
+This project is licensed under the MIT License.
 
-## 🙏 Credits
+## 👥 Team
 
-- Images: Unsplash
-- Icons: Emoji
-- Fonts: Google Fonts
-"# unseen" 
+- **Developer:** Your Name
+- **Designer:** Your Name
+- **Project Manager:** Your Name
+
+## 📞 Support
+
+For support, email support@nepalguide.com or join our Slack channel.
+
+## 🙏 Acknowledgments
+
+- Supabase for the amazing backend platform
+- Next.js team for the excellent framework
+- Tailwind CSS for the utility-first CSS framework
+- All contributors and testers
+
+## 🗺️ Roadmap
+
+### Phase 1 (Current)
+- ✅ Core platform features
+- ✅ User authentication
+- ✅ Guide booking system
+- ✅ Story sharing
+
+### Phase 2 (Next)
+- Payment integration
+- Real-time chat
+- Advanced search
+- Mobile app
+
+### Phase 3 (Future)
+- AI-powered recommendations
+- Multi-language support
+- Video stories
+- Virtual tours
+
+## 📊 Stats
+
+- **10 Database Tables** with full RLS
+- **8 Backend Services** fully implemented
+- **8 Zustand Stores** for state management
+- **15+ Pages** with responsive design
+- **16 Reusable Components**
+- **100% TypeScript** for type safety
+
+---
+
+**Built with ❤️ for travelers exploring Nepal**
+
+For detailed implementation guides, see the documentation files in the root directory.
