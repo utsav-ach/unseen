@@ -9,18 +9,30 @@
         "lint": "next lint"
     },
     "dependencies": {
+<<<<<<< HEAD
         "@supabase/ssr": "^0.10.0",
         "@supabase/supabase-js": "^2.101.1",
+=======
+        "@types/html-to-draftjs": "^1.5.0",
+        "@types/leaflet": "^1.9.21",
+>>>>>>> 1dac7b1993ae41bda56ddc4fdb8146181e38c468
         "draft-js": "^0.11.7",
         "draftjs-to-html": "^0.9.1",
         "framer-motion": "^11.0.0",
+        "html-to-draftjs": "^1.5.0",
+        "immutable": "^5.1.5",
+        "leaflet": "^1.9.4",
         "lucide-react": "^1.6.0",
         "next": "^16.2.1",
         "react": "^18.3.0",
         "react-dom": "^18.3.0",
         "react-draft-wysiwyg": "^1.15.0",
+<<<<<<< HEAD
         "zod": "^4.3.6",
         "zustand": "^5.0.12"
+=======
+        "react-leaflet": "^4.2.1"
+>>>>>>> 1dac7b1993ae41bda56ddc4fdb8146181e38c468
     },
     "devDependencies": {
         "@types/draft-js": "^0.11.20",

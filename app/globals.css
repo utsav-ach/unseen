@@ -514,3 +514,211 @@
     margin: 0 auto;
     padding: 2rem;
 }
+
+/* Custom Range Slider */
+input[type="range"].slider-thumb::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #166534;
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s;
+}
+
+input[type="range"].slider-thumb::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(22, 101, 52, 0.4);
+}
+
+input[type="range"].slider-thumb::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #166534;
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s;
+}
+
+input[type="range"].slider-thumb::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(22, 101, 52, 0.4);
+}
+
+/* Draft.js Editor Custom Styles */
+.rdw-editor-toolbar {
+    border: none !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    background: #f9fafb !important;
+    padding: 8px !important;
+    margin-bottom: 0 !important;
+}
+
+.rdw-option-wrapper {
+    border: 1px solid #e5e7eb !important;
+    background: white !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    border-radius: 6px !important;
+    margin: 0 4px !important;
+    transition: all 0.15s !important;
+}
+
+.rdw-option-wrapper:hover {
+    background: #f3f4f6 !important;
+    border-color: #d1d5db !important;
+    box-shadow: none !important;
+}
+
+.rdw-option-active {
+    background: #dcfce7 !important;
+    border-color: #166534 !important;
+}
+
+.rdw-editor-main {
+    background: white !important;
+}
+
+.public-DraftEditor-content {
+    min-height: 150px;
+    color: #111827 !important;
+}
+
+.public-DraftEditorPlaceholder-root {
+    color: #9ca3af !important;
+}
+
+/* Grayscale map filter */
+.leaflet-container .grayscale {
+    filter: grayscale(0.3) contrast(1.1);
+}
+
+/* Smooth page transitions and animations */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scale-up {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+}
+
+.animate-scale-up {
+    animation: scale-up 0.3s ease-out;
+}
+
+.animate-slide-up {
+    animation: slide-up 0.4s ease-out;
+}
+
+/* Rich Text Editor Styling */
+.rich-text-editor-wrapper .rdw-editor-toolbar {
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.rich-text-editor-wrapper .rdw-editor-main {
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.rich-text-editor-wrapper .public-DraftStyleDefault-block {
+    margin: 0.5em 0;
+}
+
+.rich-text-editor-wrapper .rdw-option-wrapper {
+    border: none;
+    background: transparent;
+    padding: 6px;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    margin: 0 2px;
+    transition: all 0.2s;
+}
+
+.rich-text-editor-wrapper .rdw-option-wrapper:hover {
+    background: #e5e7eb;
+    box-shadow: none;
+}
+
+.rich-text-editor-wrapper .rdw-option-active {
+    background: #10b981 !important;
+    color: white;
+}
+
+.rich-text-editor-wrapper .rdw-option-active:hover {
+    background: #059669 !important;
+}
+
+/* Prose styling for rendered HTML */
+.prose {
+    color: #374151;
+    max-width: 65ch;
+}
+
+.prose p {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+.prose strong {
+    color: #111827;
+    font-weight: 600;
+}
+
+.prose ul {
+    list-style-type: disc;
+    padding-left: 1.5em;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+.prose ol {
+    list-style-type: decimal;
+    padding-left: 1.5em;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+.prose li {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.prose a {
+    color: #10b981;
+    text-decoration: underline;
+}
+
+.prose a:hover {
+    color: #059669;
+}
